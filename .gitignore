@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/desktop/copper/ipch
+/desktop/copper/Debug
+/desktop/copper/Release
+/desktop/copper/Win32
+/desktop/copper/x64
+/desktop/copper/.vs
+/desktop/copper/copper.vcxproj.filters
+/desktop/copper/copper.VC.VC.opendb
+/desktop/copper/copper.VC.db

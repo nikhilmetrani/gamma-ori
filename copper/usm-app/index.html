@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<h1>Hello World!</h1>
+		We are using node <script>document.write(process.versions.node)</script>,
+		Chrome <script>document.write(process.versions.chrome)</script>,
+		and Electron <script>document.write(process.versions.electron)</script>.
+		<div class="container">
+			<h2>log-in</h2>
+			<form role="form">
+				<div class="form-group">
+					<label for="email">Account:</label>
+					<input type="email" class="form-control" id="email" placeholder="Email / User Name">
+				</div>
+				<div class="form-group">
+					<label for="pwd">Password:</label>
+					<input type="password" class="form-control" id="pwd" placeholder="Password">
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox">Remember me</label>
+				</div>
+			</form>
+			<button type="submit" class="btn btn-default">log me in</button><button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+		</div>
+		  
+	</body>
+</html>
