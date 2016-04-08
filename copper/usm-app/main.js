@@ -25,9 +25,10 @@ app.on('ready', function() {
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
+  //mainWindow.loadURL('http://google.com');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
