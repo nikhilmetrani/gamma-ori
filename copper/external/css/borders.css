@@ -1,0 +1,8 @@
+*{margin:0px;padding:0px;overflow:hidden}
+/*div{position:absolute}*/
+div#header{top:0px;left:0px;right:0px;height:60px;background-color: ghostwhite;position:absolute}
+div#content{top:60px;left:0px;right:0px;bottom:50px;background-color:ghostwhite;position:absolute}
+div#left{top:0px;bottom:0px;left:0px;width:50%;overflow-y:auto;position:absolute}
+div#right{top:0px;bottom:0px;right:0px;width:50%;overflow-y:auto;position:absolute}
+div#footer{bottom:0px;left:0px;right:0px;height:50px;background-color:ghostwhite;position:absolute}
+.wvcontainer{top:0px;bottom:0px;left:0px;height:100%;padding: 0px 10px 0px 10px}
