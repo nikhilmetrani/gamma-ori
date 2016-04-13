@@ -2,9 +2,8 @@
  * Renderer process
  * "Main" view
  */
-var menu = require('../js/menus.js');
+var menu = require('../js/menus');
 
-// create desktop menu
 menu.create();
 
 function loadURLInToWebView(url) {

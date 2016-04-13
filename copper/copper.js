@@ -1,15 +1,19 @@
 'use strict';
 
+//requires
 const electron = require('electron');
+//const ipc = require('ipc');
+const ipcMain = electron.ipcMain;
+
+//constants
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 
-//In built
+//In built constants
 const settings = require('./js/settings');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 var mainWindow = null;
+var aboutWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -23,6 +27,7 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+    //ensure theme setting is available for the app
     if (!settings.readSettings('theme')) {
         settings.saveSettings('theme', 'light'); //['ctrl', 'shift']);
     }
@@ -31,16 +36,54 @@ app.on('ready', function() {
 
     // and load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/windows/index.html');
-    //mainWindow.loadURL('http://google.com');
 
     // Open the DevTools.
     //mainWindow.webContents.openDevTools();
 
-    // Emitted when the window is closed.
     mainWindow.on('closed', function() {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
         mainWindow = null;
     });
 });
+
+function closeMainWindow() {
+    if (mainWindow) {
+        mainWindow.close();
+    }
+};
+
+ipcMain.on('synchronous-message', function(event, arg) {
+  if (arg == 'open-about-window') {
+      showAboutWindow();
+  } else if (arg == 'close-about-window') {
+      closeAboutWindow();
+  } else if (arg == 'close-main-window') {
+      closeMainWindow();
+  }
+  event.returnValue = 'done';
+});
+
+function showAboutWindow() {
+    if (aboutWindow) {
+        return;
+    }
+
+    aboutWindow = new BrowserWindow({
+        //frame: false,
+        height: 520,
+        resizable: false,
+        width: 320
+    });
+
+    aboutWindow.loadURL('file://' + __dirname + '/windows/about/about.html');
+
+    aboutWindow.on('closed', function () {
+        aboutWindow = null;
+    });
+}
+
+//Required to close from web page control or menu
+function closeAboutWindow() {
+    if (aboutWindow) {
+        aboutWindow.close();
+    }
+};
