@@ -15,6 +15,8 @@ function loadURLInToWebView(url) {
 function setCSS(css) {
 	try {
 		// append stylesheet to alter
+        var themeCSS = document.getElementById('themeCSS');
+        document.getElementsByTagName("head")[0].removeChild(themeCSS);
 		document.getElementsByTagName("head")[0].appendChild(css);
 	} catch (e) {
 		setTimeout(function(){setCSS(css)}, 100);
@@ -32,9 +34,9 @@ function changeTheme(themeName) {
     
     // create CSS element to set up the page
     var css = document.createElement("link");
+    css.setAttribute("id", "themeCSS");
     css.setAttribute("href", "../theme/"+themeName+".css");
     css.setAttribute("rel","stylesheet");
-    css.setAttribute("type","text/css");
     
     // attempt to add the css and then keep trying till we do
     setCSS(css);
