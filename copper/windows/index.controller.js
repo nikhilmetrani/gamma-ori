@@ -1,6 +1,7 @@
 var user = "default";
 var pass = "password";
 var loggedin = false;
+const settings = require("../js/settings");
 
 document.addEventListener("keydown", function (e) {
     if (e.which === 123) {
@@ -34,4 +35,12 @@ function isLoggedIn() {
 
 function toggleDeveloperTools() {
     require('remote').getCurrentWindow().toggleDevTools();
+}
+
+function saveSetting(settingKey, settingValue) {
+    settings.saveSettings(settingKey, settingValue);
+}
+
+function readSetting(settingKey) {
+    return settings.readSettings(settingKey);
 }

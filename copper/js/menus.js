@@ -74,13 +74,15 @@ module.exports = {
                             {
                                 label: 'Light theme',
                                 click: function() {
-                                    changeTheme('light');
+                                    setTheme('light');
+                                    saveSetting('theme', 'light');
                                 }
                             },
                             {
                                 label: 'Dark theme',
                                 click: function() {
-                                    changeTheme('dark');
+                                    setTheme('dark');
+                                    saveSetting('theme', 'dark');
                                 }
                             }
                         ]

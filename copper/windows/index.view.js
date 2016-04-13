@@ -16,14 +16,17 @@ function setCSS(css) {
 	try {
 		// append stylesheet to alter
         var themeCSS = document.getElementById('themeCSS');
-        document.getElementsByTagName("head")[0].removeChild(themeCSS);
+        if (null !== themeCSS) {
+            document.getElementsByTagName("head")[0].removeChild(themeCSS);
+        }
 		document.getElementsByTagName("head")[0].appendChild(css);
 	} catch (e) {
 		setTimeout(function(){setCSS(css)}, 100);
 	}
 }
 
-function changeTheme(themeName) {
+function setTheme(themeName) {
+    
     if (themeName == "dark") {
         document.getElementById("navbarMain").className = "navbar navbar-inverse";
     }
@@ -41,4 +44,9 @@ function changeTheme(themeName) {
     // attempt to add the css and then keep trying till we do
     setCSS(css);
     css = null;
+}
+
+function loadCurrentTheme() {
+    //initialize the theme
+    setTheme(settings.readSettings('theme'));
 }
