@@ -1,8 +1,3 @@
-////////
-// This sample is published as part of the blog article at www.toptal.com/blog
-// Visit www.toptal.com/blog and subscribe to our newsletter to read great posts
-////////
-
 var remote = require('remote'),
     Menu = remote.require('menu');
 
@@ -28,6 +23,16 @@ module.exports = {
                         type: 'separator'
                     },
                     {
+                        label: 'Developer Tools',
+                        accelerator: 'CmdOrCtrl+Shift+i',
+                        click: function() {
+                            toggleDeveloperTools();
+                        }
+                    },
+                    {
+                        type: 'separator'
+                    },
+                    {
                         label: 'Exit',
                         accelerator: 'CmdOrCtrl+X',
                         selector: 'terminate:' //osx only
@@ -47,7 +52,9 @@ module.exports = {
                     {
                         label: 'My Apps',
                         click: function() {
-                            loadURLInToWebView('file://' + __dirname + '/../windows/myapps/myapps.html');
+                            if (isLoggedIn()) {
+                                loadURLInToWebView('file://' + __dirname + '/../windows/myapps/myapps.html');
+                            }
                             //alert('My Apps');
                         }
                     },
@@ -57,6 +64,26 @@ module.exports = {
                             loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');
                             //alert('Store');
                         }
+                    },
+                    {
+                        type: 'separator'
+                    },
+                    {
+                        label: 'Themes',
+                        submenu: [
+                            {
+                                label: 'Light theme',
+                                click: function() {
+                                    changeTheme('light');
+                                }
+                            },
+                            {
+                                label: 'Dark theme',
+                                click: function() {
+                                    changeTheme('dark');
+                                }
+                            }
+                        ]
                     }
                 ]
             },

@@ -2,14 +2,13 @@ var user = "default";
 var pass = "password";
 var loggedin = false;
 
-/**
- * Renderer process
- * "Main" view
- */
-var menu = require('../js/menus.js');
-
-// create desktop menu
-menu.create();
+document.addEventListener("keydown", function (e) {
+    if (e.which === 123) {
+        toggleDeveloperTools();
+    } else if (e.which === 116) {
+        location.reload();
+    }
+});
 
 function validateLogin() {
     var inUserName = document.getElementById("email").value;
@@ -33,7 +32,6 @@ function isLoggedIn() {
     return loggedin;
 }
 
-function loadURLInToWebView(url) {
-    var webview = document.getElementById("contentWebView");
-    webview.loadURL(url);
+function toggleDeveloperTools() {
+    require('remote').getCurrentWindow().toggleDevTools();
 }
