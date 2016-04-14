@@ -29,7 +29,9 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="#" onClick="loadURLInToWebView('file://' + __dirname + '/home/home.html');">Home</a></li>
                             <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('file://' + __dirname + '/myapps/myapps.html'); }">My Apps</a></li>
-                            <li><a href="#" onClick="loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');">xenon Store</a></li>
+                            <!-- https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html -->
+                            <!-- file://' + __dirname + '/../../../web/store.html -->
+                            <li><a href="#" onClick="loadURLInToWebView('file://' + __dirname + '/../../../web/store.html');">xenon Store</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -71,8 +73,9 @@
 				</div>
 			</div>
 		</div>
-        <script>
-            loadCurrentTheme();
-        </script>
 	</body>
+    <script>
+        loadCurrentTheme();
+        enableWebViewMessageListener();
+    </script>
 </html>

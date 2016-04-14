@@ -6,6 +6,14 @@ var menu = require('../js/menus');
 
 menu.create();
 
+function enableWebViewMessageListener() {
+    var webview = document.getElementById("contentWebView");
+    webview.addEventListener('ipc-message', function(event) {
+        var app = event.args[0][0];
+        console.log(event.channel + " : " + app.id + ", " + app.name);
+    });
+}
+
 function loadURLInToWebView(url) {
     var webview = document.getElementById("contentWebView");
     webview.loadURL(url);
