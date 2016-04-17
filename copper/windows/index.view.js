@@ -34,14 +34,6 @@ function setCSS(css) {
 
 function setTheme(themeName) {
     
-    if (themeName == "dark") {
-        document.getElementById("navbarMain").className = "navbar navbar-inverse";
-    }
-    
-    if (themeName == "light") {
-        document.getElementById("navbarMain").className = "navbar navbar-default";
-    }
-    
     // create CSS element to set up the page
     var css = document.createElement("link");
     css.setAttribute("id", "themeCSS");

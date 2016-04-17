@@ -1,0 +1,91 @@
+body{
+    font-size:0.85em;
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+div#menubar {
+    top:0px;
+    left:0px;
+    width:100%;
+    position:absolute;
+}
+
+#menu, #menu ul{
+    margin:0;
+    padding:0;
+    z-index: 1;
+    list-style-type:none;
+    list-style-position:outside;
+    position:relative;
+    line-height:1.5em; 
+}
+
+#menu a{
+    display:block;
+    padding:0px 5px;
+    /*border:1px solid #333;*/
+    text-decoration:none;
+}
+
+#menu li{
+    float:left;
+    position:relative;
+    border:1;
+    border-color: #222;
+}
+
+#menu ul {
+    position:absolute;
+    display:none;
+    white-space: nowrap;
+    /*width:12em;*/
+    top:1.5em;
+    text-indent: 0.1em;
+}
+
+#menu li ul a{
+    width:12em;
+    height:auto;
+    float:left;
+    list-style: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#menu li ul hr{ 
+    /*display: block;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-style: inset;
+    border-width: 0.5px;*/
+    size: 1;
+}
+
+#menu li ul a div{
+    width:auto;
+    height:auto;
+    float: right;
+    /*list-style: none;*/
+    font-size:0.80em;
+}
+
+#menu ul ul{
+    top:auto;
+}	
+
+#menu li ul ul {
+    left:12em;
+    margin:0px 0 0 10px;
+}
+
+#menu li:hover ul ul, #menu li:hover ul ul ul, #menu li:hover ul ul ul ul{
+    display:none;
+}
+
+#menu li:hover ul, #menu li li:hover ul, #menu li li li:hover ul, #menu li li li li:hover ul{
+    display:block;
+}
+

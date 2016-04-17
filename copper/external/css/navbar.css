@@ -1,0 +1,58 @@
+div#navbar {
+    top:1.5em;
+    left:0px;
+    width:100%;
+    position:absolute;
+    background-color:#333;
+}
+
+#navbar-button, #navbar-button ul{
+    margin:0;
+    padding:0;
+    list-style-type:none;
+    list-style-position:outside;
+    position:relative;
+    line-height:1.5em; 
+}
+
+#navbar-button a{
+    display:block;
+    padding:14px 16px;
+    /*border:1px solid #333;*/
+    text-decoration:none;
+}
+
+#navbar-button li{
+    float:left;
+    position:relative;
+}
+
+#navbar-button ul {
+    position:absolute;
+    display:none;
+    /*width:12em;*/
+    top:1.5em;
+}
+
+#navbar-button li ul a{
+    width:12em;
+    height:auto;
+    float:left;
+}
+
+#navbar-button ul ul{
+    top:auto;
+}	
+
+#navbar-button li ul ul {
+    left:12em;
+    margin:0px 0 0 10px;
+}
+
+#navbar-button li:hover ul ul, #navbar-button li:hover ul ul ul, #navbar-button li:hover ul ul ul ul{
+    display:none;
+}
+#navbar-button li:hover ul, #navbar-button li li:hover ul, #navbar-button li li li:hover ul, #navbar-button li li li li:hover ul{
+    display:block;
+}
+

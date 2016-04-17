@@ -4,48 +4,80 @@
 		<title>carbon</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="../external/bootstrap/3.3.6/css/bootstrap.min.css">
+		<!--link rel="stylesheet" href="../external/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="../external/jquery/jquery-2.2.3.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
-		<script src="../external/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <!-- Custom styles for this template -->
-        <link href="../external/css/borders.css" rel="stylesheet">
+		<script src="../external/bootstrap/3.3.6/js/bootstrap.min.js"></script-->
+        <!-- Custom styles for this template >
+        <link href="../external/css/borders.css" rel="stylesheet"-->
+        <link href="../external/css/menu.css" rel="stylesheet">
+        <link href="../external/css/navbar.css" rel="stylesheet">
 		<script src="index.controller.js"></script>
         <script src="index.view.js"></script>
-        <!--link id="themeCSS" href="../theme/light.css" rel="stylesheet"-->
+        <link id="themeCSS" href="../theme/dark.css" rel="stylesheet">
+        <script>
+            const ipcRenderer = require('electron').ipcRenderer;
+            
+            function showAboutBox() {
+                ipcRenderer.sendSync('synchronous-message', 'open-about-window');
+            }
+        </script>
 	</head>
 	<body >
-        <div id="header">
-            <nav id="navbarMain" class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>                        
-                        </button>
-                        <a class="navbar-brand" href="#">carbon</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#" onClick="loadURLInToWebView('file://' + __dirname + '/home/home.html');">Home</a></li>
-                            <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('file://' + __dirname + '/myapps/myapps.html'); }">My Apps</a></li>
-                            <!-- https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html -->
-                            <!-- file://' + __dirname + '/../../../web/store.html -->
-                            <li><a href="#" onClick="loadURLInToWebView('file://' + __dirname + '/../../../web/store.html');">xenon Store</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+        <div id="menubar">
+            <ul id="menu">
+                <li>
+                    <a href="#">carbon</a>
+                    <ul>
+                        <li><a href="#" onclick="alert();">Login</a></li>
+                        <li><a href="#" onclick="alert();">Log-off</a></li>
+                        <li><a><hr></a></li>
+                        <li><a href="#" onclick="toggleDeveloperTools();">Debug<div>Ctrl+Shift+I</div></a></li>
+                        <li><a><hr></a></li>
+                        <li><a href="#" onclick="window.close();">Exit</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">View</a>
+                    <ul>
+                        <li><a href="#" onclick="loadURLInToWebView('file://' + __dirname + '/../windows/home/home.html');">Home</a></li>
+                        <li><a href="#" onclick="loadURLInToWebView('file://' + __dirname + '/../windows/myapps/myapps.html');">My Apps</a></li>
+                        <li><a href="#" onclick="loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');">Store</a></li>
+                        <li><a><hr></a></li>
+                        <li><a href="#">Themes</a>
+                            <ul>
+                                <li><a href="#" onclick="setTheme('light');saveSetting('theme', 'light');">Light</a></li>
+                                <li><a href="#" onclick="setTheme('dark');saveSetting('theme', 'dark');">Dark</a></li>
+                            </ul>
+                        </li>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Help</a>
+                    <ul>
+                        <li><a href="#" onclick="alert();">Support</a></li>
+                        <li><a><hr></a></li>
+                        <li><a href="#" onclick="alert();">Subscriber Agreement testing long text</a></li>
+                        <li><a><hr></a></li>
+                        <li><a href="#" onclick="showAboutBox()">About</a></li>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-        <div id="content">
-            <webview class="wvcontainer" id="contentWebView" src="home/home.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
+        <div id="navbar">
+            <ul id="navbar-button">
+                <li class="active"><a href="#">carbon</a></li>
+                <li class="active"><a href="#" onClick="loadURLInToWebView('file://' + __dirname + '/home/home.html');">Home</a></li>
+                <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('file://' + __dirname + '/myapps/myapps.html'); }">My Apps</a></li>
+                <li><a href="#" onClick="loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');">xenon Store</a></li>
+            </ul>
         </div>
-        <div id="footer"></div>
+        <div style="top:5.0em;left:0px;width:100%;bottom:24px;position:absolute;background-color:#333">
+            <webview class="wvcontainer" id="contentWebView" src="home/home.html" httpreferrer="carbon" style="height:100%;width:100%" autosize="on" nodeintegration></webview>
+        </div>
         
-        <div class="modal fade" id="loginModal" role="dialog" style="position:relative">
+        <div class="modal fade" id="loginModal" role="dialog" >
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
