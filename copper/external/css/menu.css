@@ -53,14 +53,25 @@ div#menubar {
     text-overflow: ellipsis;
 }
 
-#menu li ul hr{ 
-    /*display: block;
+#menu li ul div{
+    width:12em;
+    height:1;
+    float:left;
+    padding:0px 5px;
+    list-style: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#menu li ul div hr{ 
+    /*display: block;*/
     margin-top: 0.1em;
     margin-bottom: 0.1em;
     margin-left: 0px;
     margin-right: 0px;
-    border-style: inset;
-    border-width: 0.5px;*/
+   /* border-style: inset;
+    border-width: 0px;*/
     size: 1;
 }
 

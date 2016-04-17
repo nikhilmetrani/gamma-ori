@@ -10,9 +10,19 @@ div#menubar {
     background-color:#222;
 }
 
+#menu div{
+    /*border:1px solid #333;*/
+    color: #222;
+    background-color:#222;
+}
+
 #menu a:hover{
     color:#333;
     background-color:#f1f1f1;
+}
+
+#menu a div{
+    background-color: transparent;
 }
 
 #navbar-button a{
