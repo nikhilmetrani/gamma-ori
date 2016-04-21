@@ -49,7 +49,7 @@ var menuTemplate = [
             {
                 label: 'Home',
                 click: function() {
-                    loadURLInToWebView('file://' + __dirname + '/../windows/home/home.html');
+                    loadURLInToWebView('file://' + __dirname + '/../screens/home/home.html');
                     //ipc.send('toggle-insert-view');
                 }
             },
@@ -57,7 +57,7 @@ var menuTemplate = [
                 label: 'My Apps',
                 click: function() {
                     if (isLoggedIn()) {
-                        loadURLInToWebView('file://' + __dirname + '/../windows/myapps/myapps.html');
+                        loadURLInToWebView('file://' + __dirname + '/../screens/myapps/myapps.html');
                     }
                     //alert('My Apps');
                 }

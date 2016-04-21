@@ -2,14 +2,19 @@
 
 var nconf = require('nconf').file({file: getSettingsLocation() + '/settings.json'});
 
-function saveSettings(settingKey, settingValue) {
+function saveSetting(settingKey, settingValue) {
     nconf.set(settingKey, settingValue);
     nconf.save();
 }
 
-function readSettings(settingKey) {
+function readSetting(settingKey) {
     nconf.load();
     return nconf.get(settingKey);
+}
+
+function removeSetting(settingKey) {
+    nconf.remove(settingKey);
+    nconf.save();
 }
 
 function getUserHome() {
@@ -33,6 +38,7 @@ function getSettingsLocation() {
 }
 
 module.exports = {
-    saveSettings: saveSettings,
-    readSettings: readSettings
+    saveSetting: saveSetting,
+    readSetting: readSetting,
+    removeSetting: removeSetting
 };

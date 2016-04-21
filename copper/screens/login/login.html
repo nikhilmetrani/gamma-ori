@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="../../external/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="../../external/jquery/jquery-2.2.3.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+		<script src="../../external/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <!-- Custom styles for this template -->
+		<script src="./login.controller.js"></script>
+        <!--link id="themeCSS" href="../theme/dark.css" rel="stylesheet"-->
+	</head>
+	<body>
+        <div class="container">
+            <form class="form-signin">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <label for="inputEmail" class="sr-only">Account</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Account / Email address" required autofocus>
+                <br>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="checkBoxRemember" value="remember-me"> Remember me
+                    </label>
+                    <label>
+                        <input type="checkbox" class="pull-right" id="checkBoxSaveSession" value="save-session"> Keep me logged in
+                    </label>
+                </div>
+                <button class="btn btn-default" type="submit">Off-line mode</button>
+                <button class="btn pull-right btn-primary" type="submit" onclick="if (processLogin()) {closeLoginWindow();}">Sign in</button>
+            </form>
+
+        </div> <!-- /container -->
+        
+        <script>
+            if (loadUserCredentialsFromCache()) {
+                populateUserToUI();
+            }
+            if (getSavedSession()) {
+                closeLoginWindow();
+            }
+        </script>
+    </body>
+</html>
