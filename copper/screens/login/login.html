@@ -21,15 +21,12 @@
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
                 <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="checkBoxRemember" value="remember-me"> Remember me
-                    </label>
-                    <label>
-                        <input type="checkbox" class="pull-right" id="checkBoxSaveSession" value="save-session"> Keep me logged in
+                    <label title="This will save your session so that you don't need to login every time!">
+                        <input type="checkbox" id="checkBoxMySystem" value="remember-me"> This system belongs to me!
                     </label>
                 </div>
-                <button class="btn btn-default" type="submit">Off-line mode</button>
-                <button class="btn pull-right btn-primary" type="submit" onclick="if (processLogin()) {closeLoginWindow();}">Sign in</button>
+                <button class="btn btn-default" type="submit" onclick="saveOfflineMode(); launchInOfflineMode(); closeLoginWindow();">Off-line mode</button>
+                <button class="btn pull-right btn-primary" type="submit" onclick="if (processLogin()) {saveLoginInfo(); notifyLoginSuccess(); closeLoginWindow();}">Sign in</button>
             </form>
 
         </div> <!-- /container -->
@@ -37,9 +34,7 @@
         <script>
             if (loadUserCredentialsFromCache()) {
                 populateUserToUI();
-            }
-            if (getSavedSession()) {
-                closeLoginWindow();
+                getSavedSession();
             }
         </script>
     </body>

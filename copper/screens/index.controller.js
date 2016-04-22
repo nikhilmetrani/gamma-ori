@@ -2,6 +2,7 @@ var user = "default";
 var pass = "password";
 var loggedin = false;
 const userSettings = require("../js/copper-app/UserSettings");
+var loggedInUser = "";
 
 //var menu = require('../js/menus');
 
@@ -16,7 +17,17 @@ app.controller('myCtrl', function($scope, $http) {
       $scope.myWelcome = response.data;
   });
 });
-   
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+    function(m,key,value) {
+      vars[key] = value;
+      console.log(key + " : " + value);
+    });
+    return vars;
+}
+  
 function showAboutBox() {
     ipcRenderer.sendSync('synchronous-message', 'open-about-window');
 }
@@ -86,9 +97,9 @@ document.addEventListener("keydown", function (e) {
 });
 
 function validateLogin() {
-    var inUserName = document.getElementById("email").value;
+    loggedInUser = document.getElementById("email").value;
     var inPassword = document.getElementById("pwd").value;
-    if (user == inUserName) {
+    if (user == loggedInUser) {
         if (pass == inPassword) {
             loggedin = true;
             $('#loginModal').modal('hide');
@@ -117,4 +128,35 @@ function saveSetting(settingKey, settingValue) {
 
 function readSetting(settingKey) {
     return userSettings.readSetting(settingKey);
+}
+
+function loadUserCredentialsFromCache() {
+    loggedInUser = userSettings.readSetting("loggedInUser");
+    if (loggedInUser !== "" && getSavedSession()) {
+        loggedin = true;
+    }
+    return loggedInUser;
+}
+
+function getSavedSession() {
+    return userSettings.readSetting("personalSys");
+}
+
+function logOutUser() {
+    loggedin = false;
+    userSettings.removeSetting("loggedInUser");
+    userSettings.removeSetting("personalSys");
+}
+
+function showLoginWindow() {
+    ipcRenderer.sendSync('synchronous-message', 'open-login-window');
+    require('remote').getCurrentWindow().close();
+}
+
+function isOfflineMode() {
+    if ('true' == userSettings.readSetting("offlineMode")) {
+        return true;
+    } else {
+        return false;
+    }
 }

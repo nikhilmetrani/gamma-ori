@@ -1,4 +1,5 @@
 const userSettings = require("../../js/copper-app/UserSettings");
+const ipcRenderer = require('electron').ipcRenderer;
 var user = null;
  
 var userName = "default";
@@ -16,34 +17,37 @@ document.addEventListener("keydown", function (e) {
 function loadUserCredentialsFromCache() {
     user = userSettings.readSetting("loggedInUser");
     return user;
-    /*if (!user) {
-        document.getElementById("checkBoxRemember").value = false;
-        alert("no user"); 
-    } else if (user) {
-        document.getElementById("inputEmail").value = user.name;
-        document.getElementById("checkBoxRemember").value = true;
-        var keepSession = userSettings.readSetting("sessionToken");
-        if (keepSession) {
-            var remote = require('remote');
-            remote.getCurrentWindow().close();
-        }
-    }*/
 }
 
 function populateUserToUI() {
     if (user) {
         document.getElementById("inputEmail").value = user;
-        document.getElementById("checkBoxRemember").checked = true;
+        document.getElementById("checkBoxMySystem").checked = true;
     }
 }
 
 function getSavedSession() {
-    return userSettings.readSetting("keepSession");
+    return userSettings.readSetting("personalSys");
 }
 
 function saveLoginInfo() {
     userSettings.saveSetting("loggedInUser", document.getElementById("inputEmail").value);
-    userSettings.saveSetting("keepSession", "yes");
+    if (document.getElementById("checkBoxMySystem").checked) {
+        userSettings.saveSetting("personalSys", "yes");
+    }
+    userSettings.saveSetting("offlineMode", "false");
+}
+
+function saveOfflineMode() {
+    userSettings.saveSetting("offlineMode", "true");
+}
+
+function launchInOfflineMode() {
+    ipcRenderer.sendSync('synchronous-message', 'use-offline-mode');
+}
+
+function notifyLoginSuccess() {
+    ipcRenderer.sendSync('synchronous-message', 'login-success');
 }
 
 function closeLoginWindow() {
@@ -64,14 +68,8 @@ function validateLogin() {
 
 function processLogin() {
     if (validateLogin()) {
-        if (document.getElementById("checkBoxRemember").checked) {
-            var inUserName = document.getElementById("inputEmail").value;
-            userSettings.saveSetting("loggedInUser", inUserName);
-            if (document.getElementById("checkBoxSaveSession").checked) {
-                userSettings.saveSetting("keepSession", "yes");
-            }
-        }
         return true;
     }
     alert("Invalid credentials");
+    return false;
 }

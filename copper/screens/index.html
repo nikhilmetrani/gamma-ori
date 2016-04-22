@@ -35,7 +35,15 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <!--button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button-->
-                        <li><a href="#" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-user"></span></a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{loggedInUser}}"><span class="glyphicon glyphicon-user"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" onclick="">View profile</a></li>
+                                <li><a href="#" onclick="">Account settings</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" onclick="logOutUser(); showLoginWindow();">Log-off</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span></a>
                             <ul class="dropdown-menu">
@@ -53,37 +61,12 @@
             <webview class="wvcontainer" id="contentWebView" src="home/home.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
         </div>
         
-        <div class="modal fade" id="loginModal" role="dialog" >
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Secure login</h4>
-					</div>
-					<div class="modal-body">
-						<form role="form">
-							<div class="form-group">
-								<label for="email">Account:</label>
-								<input type="email" class="form-control" autofocus="autofocus" id="email" placeholder="Email / User Name">
-							</div>
-							<div class="form-group">
-								<label for="pwd">Password:</label>
-								<input type="password" class="form-control" id="pwd" placeholder="Password">
-							</div>
-							<div class="checkbox">
-								<label><input type="checkbox">Remember me</label>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-default" onClick="if(validateLogin());else return false;">log me in</button><button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</body>
     <script>
         loadCurrentTheme();
         enableWebViewMessageListener();
+        if (!isOfflineMode()) {
+            loadUserCredentialsFromCache();
+        }
     </script>
 </html>

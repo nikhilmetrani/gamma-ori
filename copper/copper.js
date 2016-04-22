@@ -1,66 +1,79 @@
 'use strict';
 
-//requires
 const electron = require('electron');
-//const ipc = require('ipc');
 const ipcMain = electron.ipcMain;
 const Menu = require('menu');
-//constants
-const app = electron.app;  // Module to control application life.
-const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
-
-//In built constants
+const copperApp = electron.app;
+const BrowserWindow = electron.BrowserWindow;
 const userSettings = require('./js/copper-app/UserSettings');
 const appConfig = require('./js/copper-app/AppConfig');
+const trayMenu = [
+    {
+      label: "copper",
+      click: function() { 
+          if (loginStatus || offlineMode) {
+              showMainWindow();
+            } else {
+                showLoginWindow();
+            }
+        }
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: "Exit",
+      click: function() {closeAllWindows();copperApp.quit();}
+    }
+  ];
 
-//const trayMenu = require('./js/copper-app/traymenu');
-
+var loginStatus = false;
+var offlineMode = false;
 var mainWindow = null;
 var aboutWindow = null;
 var loginWindow = null;
 var dialog = require('dialog');
-
-
 const Tray = electron.Tray;
 
 var appIcon = null;
 
-// Quit when all windows are closed.
-app.on('window-all-closed', function() {
+//startup
+copperApp.on('ready', function() {
+    appIcon = new Tray('./assets/images/eyot@1.33x.png');
+    var contextMenu = Menu.buildFromTemplate(trayMenu);
+    appIcon.setToolTip('63Cu');
+    appIcon.setContextMenu(contextMenu);
+    
+    if (!getLoginStatus() || !getSavedSession()) {
+        showLoginWindow();
+    } else {
+        showMainWindow();
+    }
+});
+
+// shutdown
+copperApp.on('window-all-closed', function() {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform != 'darwin') {
-   //app.quit();
+   //copperApp.quit();
   }
 });
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-app.on('ready', function() {
-    appIcon = new Tray('./assets/images/eyot@1.33x.png');
-    var trayMenu = appConfig.readSetting("trayMenu");
-    //dialog.showMessageBox({ message: trayMenu,
-      //buttons: ["OK"] });
-    var contextMenu = Menu.buildFromTemplate(trayMenu);
-    appIcon.setToolTip('This is my application.');
-    appIcon.setContextMenu(contextMenu);
-    showLoginWindow();
-});
 
+//main window
 function showMainWindow() {
-    //ensure theme setting is available for the app
-    if (!userSettings.readSetting('theme')) {
-        userSettings.saveSetting('theme', 'light'); //['ctrl', 'shift']);
+    if (null !== mainWindow) {
+        return;
     }
-    // Create the browser window.
+    if (!userSettings.readSetting('theme')) {
+        userSettings.saveSetting('theme', appConfig.readSetting('theme'));
+    }
     mainWindow = new BrowserWindow({width: 800, height: 600, minWidth: 640, minHeight: 480});
     mainWindow.setMenu(null);
-    // and load the index.html of the app.
+    
     mainWindow.loadURL('file://' + __dirname + '/screens/index.html');
-
-    // Open the DevTools.
-    //mainWindow.webContents.openDevTools();
-
+    
     mainWindow.on('closed', function() {
         mainWindow = null;
     });
@@ -72,33 +85,11 @@ function closeMainWindow() {
     }
 };
 
-ipcMain.on('synchronous-message', function(event, arg) {
-  if (arg == 'open-about-window') {
-      showAboutWindow();
-  } else if (arg == 'open-main-window') {
-      showMainWindow();
-  } else if (arg == 'close-about-window') {
-      closeAboutWindow();
-  } else if (arg == 'close-main-window') {
-      closeMainWindow();
-  } else if (arg == 'login-success') {
-      showMainWindow();
-      closeLoginWindow();
-  } else if (arg == 'use-offline-mode') {
-      showMainWindow();
-      closeLoginWindow();
-  } else if (arg == 'exit-copper-app') {
-      closeAllWindows();
-      app.quit();
-  }
-  event.returnValue = 'done';
-});
-
+//login window
 function showLoginWindow() {
     if (loginWindow) {
         return;
     }
-
     loginWindow = new BrowserWindow({
         //frame: false,
         height: 320,
@@ -106,10 +97,9 @@ function showLoginWindow() {
         width: 480
     });
     loginWindow.setMenu(null);
-    loginWindow.loadURL('file://' + __dirname + '/screens/login/login.html');
+    loginWindow.loadURL('file://' + __dirname + '/screens/login/login.html?loggedin=' + loginStatus);
 
     loginWindow.on('closed', function () {
-        showMainWindow();
         loginWindow = null;
     });
 }
@@ -120,6 +110,7 @@ function closeLoginWindow() {
     }
 };
 
+//about window
 function showAboutWindow() {
     if (aboutWindow) {
         return;
@@ -139,15 +130,57 @@ function showAboutWindow() {
     });
 }
 
-//Required to close from web page control or menu
 function closeAboutWindow() {
     if (aboutWindow) {
         aboutWindow.close();
     }
 };
 
+//closing all windows
 function closeAllWindows() {
     closeAboutWindow();
     closeLoginWindow();
     closeMainWindow();
+}
+
+//ipc listner
+ipcMain.on('synchronous-message', function(event, arg) {
+  if (arg == 'open-about-window') {
+      showAboutWindow();
+  } else if (arg == 'open-login-window') {
+      showLoginWindow();
+  }  else if (arg == 'open-main-window') {
+      showMainWindow();
+  } else if (arg == 'close-about-window') {
+      closeAboutWindow();
+  } else if (arg == 'close-main-window') {
+      closeMainWindow();
+  } else if (arg == 'login-success') {
+      loginStatus = true;
+      offlineMode = false;
+      showMainWindow();
+      //closeLoginWindow();
+  } else if (arg == 'use-offline-mode') {
+      loginStatus = false;
+      offlineMode = true;
+      showMainWindow();
+      //closeLoginWindow();
+  } else if (arg == 'exit-copper-app') {
+      closeAllWindows();
+      copperApp.quit();
+  }
+  event.returnValue = 'done';
+});
+
+function getLoginStatus() {
+    if (!userSettings.readSetting("loggedInUser")) {
+        loginStatus = false;
+    } else {
+        loginStatus = true;
+    }
+    return loginStatus;
+}
+
+function getSavedSession() {
+    return userSettings.readSetting("personalSys");
 }
