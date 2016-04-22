@@ -20,9 +20,12 @@ function loadUserCredentialsFromCache() {
 }
 
 function populateUserToUI() {
-    if (user) {
+    if ("yes" == userSettings.readSetting("personalSys")) {
         document.getElementById("inputEmail").value = user;
         document.getElementById("checkBoxMySystem").checked = true;
+    } else {
+        document.getElementById("inputEmail").value = "";
+        document.getElementById("checkBoxMySystem").checked = false;
     }
 }
 
@@ -31,9 +34,11 @@ function getSavedSession() {
 }
 
 function saveLoginInfo() {
-    userSettings.saveSetting("loggedInUser", document.getElementById("inputEmail").value);
     if (document.getElementById("checkBoxMySystem").checked) {
+        userSettings.saveSetting("loggedInUser", document.getElementById("inputEmail").value);
         userSettings.saveSetting("personalSys", "yes");
+    } else {
+        userSettings.saveSetting("personalSys", "no");
     }
     userSettings.saveSetting("offlineMode", "false");
 }

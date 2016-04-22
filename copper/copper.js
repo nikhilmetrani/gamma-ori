@@ -23,7 +23,9 @@ const trayMenu = [
     },
     {
       label: "Exit",
-      click: function() {closeAllWindows();copperApp.quit();}
+      click: function() {
+          exitCopperApp();
+        }
     }
   ];
 
@@ -44,10 +46,14 @@ copperApp.on('ready', function() {
     appIcon.setToolTip('63Cu');
     appIcon.setContextMenu(contextMenu);
     
-    if (!getLoginStatus() || !getSavedSession()) {
-        showLoginWindow();
+    if (getSavedSession()) {
+        if (getLoginStatus()) {
+            showMainWindow();
+        } else {
+            showLoginWindow();
+        }
     } else {
-        showMainWindow();
+        showLoginWindow();
     }
 });
 
@@ -72,7 +78,7 @@ function showMainWindow() {
     mainWindow = new BrowserWindow({width: 800, height: 600, minWidth: 640, minHeight: 480});
     mainWindow.setMenu(null);
     
-    mainWindow.loadURL('file://' + __dirname + '/screens/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/screens/index.html?loggedin=' + loginStatus);
     
     mainWindow.on('closed', function() {
         mainWindow = null;
@@ -97,7 +103,7 @@ function showLoginWindow() {
         width: 480
     });
     loginWindow.setMenu(null);
-    loginWindow.loadURL('file://' + __dirname + '/screens/login/login.html?loggedin=' + loginStatus);
+    loginWindow.loadURL('file://' + __dirname + '/screens/login/login.html');
 
     loginWindow.on('closed', function () {
         loginWindow = null;
@@ -166,11 +172,16 @@ ipcMain.on('synchronous-message', function(event, arg) {
       showMainWindow();
       //closeLoginWindow();
   } else if (arg == 'exit-copper-app') {
-      closeAllWindows();
-      copperApp.quit();
+      exitCopperApp();
   }
   event.returnValue = 'done';
 });
+
+function exitCopperApp() {
+    closeUserSession();
+    closeAllWindows();
+    copperApp.quit();
+}
 
 function getLoginStatus() {
     if (!userSettings.readSetting("loggedInUser")) {
@@ -182,5 +193,16 @@ function getLoginStatus() {
 }
 
 function getSavedSession() {
-    return userSettings.readSetting("personalSys");
+    if ("yes" == userSettings.readSetting("personalSys")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function closeUserSession() {
+    if ("yes" !== userSettings.readSetting("personalSys")) {
+        userSettings.removeSetting("loggedInUser");
+        userSettings.removeSetting("offlineMode");
+    }
 }
