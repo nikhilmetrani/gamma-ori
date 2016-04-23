@@ -41,7 +41,7 @@ var appIcon = null;
 
 //startup
 copperApp.on('ready', function() {
-    appIcon = new Tray('./assets/images/eyot@1.33x.png');
+    appIcon = new Tray('./assets/images/eyot.png');
     var contextMenu = Menu.buildFromTemplate(trayMenu);
     appIcon.setToolTip('63Cu');
     appIcon.setContextMenu(contextMenu);
