@@ -19,6 +19,12 @@ const trayMenu = [
         }
     },
     {
+      label: "About",
+      click: function() { 
+          showAboutWindow();
+      }
+    },
+    {
       type: 'separator'
     },
     {
