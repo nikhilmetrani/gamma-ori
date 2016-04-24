@@ -144,6 +144,7 @@ function getSavedSession() {
 
 function logOutUser() {
     loggedin = false;
+    ipcRenderer.sendSync('synchronous-message', 'logoff-user');
     userSettings.removeSetting("loggedInUser");
     userSettings.removeSetting("personalSys");
 }

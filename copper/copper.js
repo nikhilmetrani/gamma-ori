@@ -177,6 +177,9 @@ ipcMain.on('synchronous-message', function(event, arg) {
       offlineMode = true;
       showMainWindow();
       //closeLoginWindow();
+  } else if (arg == 'logoff-user') {
+      loginStatus = false;
+      offlineMode = false;
   } else if (arg == 'exit-copper-app') {
       exitCopperApp();
   }
