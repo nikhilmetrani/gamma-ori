@@ -52,13 +52,18 @@ copperApp.on('ready', function() {
     appIcon.setToolTip('63Cu');
     appIcon.setContextMenu(contextMenu);
     
+    
     if (getSavedSession()) {
+        process.stdout.write("getSavedSession returned true");
         if (getLoginStatus()) {
+            process.stdout.write("getLoginStatus returned true");
             showMainWindow();
         } else {
+            process.stdout.write("getLoginStatus returned false");
             showLoginWindow();
         }
     } else {
+        process.stdout.write("getSavedSession returned false");
         showLoginWindow();
     }
 });
@@ -202,11 +207,16 @@ function getLoginStatus() {
 }
 
 function getSavedSession() {
-    if ("yes" == userSettings.readSetting("personalSys")) {
-        return true;
-    } else {
-        return false;
+    /*var personalSysA = userSettings.readSetting("personalSys");
+    var theState = "";
+    if (null == personalSysA) {
+        theState = "null";
     }
+    if (undefined == personalSysA) {
+        theState = "undefined";
+    }
+    process.stdout.write(theState);*/
+    return ("yes" == userSettings.readSetting("personalSys"));
 }
 
 function closeUserSession() {
