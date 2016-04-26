@@ -1,3 +1,5 @@
 div#header{background-color: ghostwhite}
 div#content{background-color: ghostwhite}
 div#footer{background-color: ghostwhite}
+div#statusbar{background-color: ghostwhite; color: #222}
+div#addressbar{background-color: ghostwhite; color: #222;border: 1px solid cornflowerblue;font-size:0.85em}

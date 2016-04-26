@@ -18,6 +18,81 @@ app.controller('myCtrl', function($scope, $http) {
   });
 });
 
+onload = function() {
+    loadCurrentTheme();
+    enableWebViewMessageListener();
+    if (!isOfflineMode()) {
+        loadUserCredentialsFromCache();
+    }
+    var webview = document.getElementById("contentWebView");
+    var addressbar = document.getElementById("addressbar");
+    var loadstart = function() {
+        addressbar.innerHTML = webview.getURL();
+        document.getElementById('refreshIcon').className = 'glyphicon glyphicon-remove';
+        //setBackButtonState();
+        //setForwardButtonState();
+    }
+    var loadstop = function() {
+        addressbar.innerHTML = webview.getURL();
+        document.getElementById('refreshIcon').className = 'glyphicon glyphicon-repeat';
+    }
+    webview.addEventListener("did-start-loading", loadstart);
+    webview.addEventListener("did-stop-loading", loadstop);
+}
+
+function setBackButtonState() {
+    var webview = document.getElementById("contentWebView");
+    var elements = [];
+    elements = [document.getElementById("linkGoBack"), document.getElementById("glyphGoBack")];
+    if (!webview.canGoBack()) {
+        setStateDisabled(elements);
+    } else {
+        setStateActive(elements);
+    }
+}
+
+function setForwardButtonState() {
+    var webview = document.getElementById("contentWebView");
+    var elements = [document.getElementById("linkGoForward"), document.getElementById("glyphGoForward")];
+    if (!webview.canGoForward()) {
+        setStateDisabled(elements);
+    } else {
+        setStateActive(elements);
+    }
+}
+
+function setStateActive(elements) {
+    for (var index in elements) {
+        elements[index].disabled = false;
+    }
+}
+
+function setStateDisabled(elements) {
+    for (var index in elements) {
+        elements[index].disabled = true;
+    }
+}
+
+function refreshButtonClick(){
+    var webview = document.getElementById("contentWebView");
+    var refreshIcon = document.getElementById("refreshIcon");
+    if ('glyphicon glyphicon-repeat' == refreshIcon.className) {
+        webview.reload();
+    } else if ('glyphicon glyphicon-remove' == refreshIcon.className) {
+        webview.stop();
+    }
+}
+
+function contentGoBack(){
+    var webview = document.getElementById("contentWebView");
+    if (webview.canGoBack()) {webview.goBack();}
+}
+
+function contentGoForward(){
+    var webview = document.getElementById("contentWebView");
+    if (webview.canGoForward()) {webview.goForward();}
+}
+
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    

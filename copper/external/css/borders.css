@@ -1,8 +1,14 @@
 /*{margin:0px;padding:0px;overflow:hidden}
 /*div{position:absolute}*/
 /*div#menucontainer{top:0px;left:0px;width:100%;position:absolute}*/
-div#content{top:50px;left:0px;right:0px;bottom:30px;position:absolute}
+div#content{top:45px;left:0px;right:0px;bottom:23px;padding:5px;position:absolute}
 /*div#left{top:0px;bottom:0px;left:0px;width:50%;overflow-y:auto;position:absolute}
-div#right{top:0px;bottom:0px;right:0px;width:50%;overflow-y:auto;position:absolute}
-div#footer{bottom:0px;left:0px;right:0px;height:50px;position:absolute}*/
+div#right{top:0px;bottom:0px;right:0px;width:50%;overflow-y:auto;position:absolute}*/
+div#footer{bottom:0px;left:0px;width:100%;height:32px;padding:5px;position:absolute;overflow: hidden}
 .wvcontainer{top:0px;bottom:0px;left:0px;height:100%;position:relative}
+div#statusbar{top:5px;bottom:5px;left:5px;right:5px;position:absolute;overflow: hidden}
+/*div#statusbar{height:100%;width:100%;max-height:28px;position:relative;display:table;border-spacing: 2px 0px}*/
+/*div#refreshbutton{height:100%;max-height:28px;position:relative;display:table-cell}*/
+div#refreshbutton{top:0px;bottom:0px;left:2px;width:18px;position:absolute;overflow: hidden}
+/*div#addressbar{height:100%;width:100%;position:relative;display:table-cell}*/
+div#addressbar{top:0px;bottom:0px;left:22px;right:2px;position:absolute;overflow: hidden}

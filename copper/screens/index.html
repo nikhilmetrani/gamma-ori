@@ -23,14 +23,15 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>                        
                     </button>
-                </div>
+                </div> <!--container-fluid-->
                 <div class="collapse navbar-collapse" id="myNavbar" style="z-index:1">
                     <ul class="nav navbar-nav navbar-left">
-                        <li><a href="#"><span class="glyphicon glyphicon-arrow-left"></span></a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-arrow-right"></span></a></li>
+                        <li><a id="linkGoBack" href="#" onclick="contentGoBack();"><span id="glyphGoBack" class="glyphicon glyphicon-arrow-left"></span></a></li>
+                        <li><a id="linkGoForward" href="#" onclick="contentGoForward();"><span id="glyphGoForward" class="glyphicon glyphicon-arrow-right"></span></a></li>
                     </ul>
                     <ul class="nav navbar-nav">
                         <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('file://' + __dirname + '/myapps/myapps.html'); }">My Apps</a></li>
+                        <!--http://www.tomshardware.com/answers/id-1646153/slow-internet-loading-fast-connection.html-->
                         <li><a href="#" onClick="loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');">xenon Store</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -45,7 +46,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span>  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" onclick="toggleDeveloperTools();">Developer Tools</a></li>
                                 <li class="divider"></li>
@@ -54,19 +55,17 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </div><!--collapse navbar-collapse-->
             </div>
-        </nav>
+        </nav><!--homenavbar-->
         <div id="content">
             <webview class="wvcontainer" id="contentWebView" src="home/home.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
         </div>
-        
+        <div id="footer">
+            <div id="statusbar">
+                <div id="refreshbutton"><a href=# onclick="refreshButtonClick();"><span id="refreshIcon" class="glyphicon glyphicon-repeat"></span></a>&nbsp;&nbsp;&nbsp;</div>
+                <div id="addressbar"></div>
+            </div>
+        </div>
 	</body>
-    <script>
-        loadCurrentTheme();
-        enableWebViewMessageListener();
-        if (!isOfflineMode()) {
-            loadUserCredentialsFromCache();
-        }
-    </script>
 </html>

@@ -1,3 +1,5 @@
 div#header{background-color: #222}
 div#content{background-color: #222}
 div#footer{background-color: #222}
+div#statusbar{background-color: #222; color: lightgrey}
+div#addressbar{background-color: #222; color: lightgrey;border: 1px solid black;font-size:0.85em}
