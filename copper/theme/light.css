@@ -3,3 +3,8 @@ div#content{background-color: ghostwhite}
 div#footer{background-color: ghostwhite}
 div#statusbar{background-color: ghostwhite; color: #222}
 div#addressbar{background-color: ghostwhite; color: #222;border: 1px solid cornflowerblue;font-size:0.85em}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #D46600 !important;
+    background-color: ghostwhite !important;
+}
+

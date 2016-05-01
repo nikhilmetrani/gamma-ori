@@ -15,7 +15,7 @@
 	</head>
 	<body>
         
-        <nav id="homenavbar" class="navbar navbar-inverse" style="z-index:1">
+        <nav id="homenavbar" class="navbar navbar-default" style="z-index:1">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -46,12 +46,13 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span>  <span class="caret"></span></a>
+                            <a id="settingsmenu" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span>  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" onclick="toggleDeveloperTools();">Developer Tools</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#" onclick="setTheme('light');saveSetting('theme', 'light');">Light theme</a></li>
-                                <li><a href="#" onclick="setTheme('dark');saveSetting('theme', 'dark');">Dark theme</a></li>
+                                <li><a href="#" onclick="setTheme('copper');saveSetting('theme', 'copper');">&nbsp;&nbsp;Copper</a></li>
+                                <li><a href="#" onclick="setTheme('light');saveSetting('theme', 'light');">&nbsp;&nbsp;Light</a></li>
+                                <li><a href="#" onclick="setTheme('dark');saveSetting('theme', 'dark');">&nbsp;&nbsp;Dark</a></li>
                             </ul>
                         </li>
                     </ul>
