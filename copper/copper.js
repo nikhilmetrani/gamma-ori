@@ -47,10 +47,7 @@ var appIcon = null;
 
 //startup
 copperApp.on('ready', function() {
-    appIcon = new Tray('./assets/icons/win.ico');
-    if (process.platform == 'darwin') {
-        appIcon = new Tray('./assets/icons/osx.icns');
-    }
+    appIcon = new Tray('./assets/icons/29cu.png');
     var contextMenu = Menu.buildFromTemplate(trayMenu);
     appIcon.setToolTip('29Cu');
     appIcon.setContextMenu(contextMenu);
@@ -89,7 +86,7 @@ function showMainWindow() {
     if (!userSettings.readSetting('theme')) {
         userSettings.saveSetting('theme', appConfig.readSetting('theme'));
     }
-    mainWindow = new BrowserWindow({width: 800, height: 600, minWidth: 640, minHeight: 480});
+    mainWindow = new BrowserWindow({width: 800, height: 600, minWidth: 640, minHeight: 480, icon:'./assets/icons/29cu@2.5x.png'});
     mainWindow.setMenu(null);
     
     mainWindow.loadURL('file://' + __dirname + '/screens/index.html?loggedin=' + loginStatus);
@@ -114,7 +111,8 @@ function showLoginWindow() {
         //frame: false,
         height: 320,
         //resizable: false,
-        width: 480
+        width: 480,
+        icon:'./assets/icons/29cu@2.5x.png'
     });
     loginWindow.setMenu(null);
     loginWindow.loadURL('file://' + __dirname + '/screens/login/login.html');
@@ -140,7 +138,8 @@ function showAboutWindow() {
         //frame: false,
         height: 520,
         resizable: false,
-        width: 320
+        width: 320,
+        icon:'./assets/icons/29cu@2.5x.png'
     });
     aboutWindow.setMenu(null);
     aboutWindow.loadURL('file://' + __dirname + '/screens/about/about.html');
