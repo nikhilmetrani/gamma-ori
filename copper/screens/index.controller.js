@@ -1,18 +1,18 @@
-var user = "default";
-var pass = "password";
-var loggedin = false;
+let user = "default";
+let pass = "password";
+let loggedin = false;
 const userSettings = require("../js/copper-app/UserSettings");
-var loggedInUser = "";
+let loggedInUser = "";
 
-//var menu = require('../js/menus');
+//let menu = require('../js/menus');
 
 //menu.create();
 
 const ipcRenderer = require('electron').ipcRenderer;
 
-var app = angular.module('myApp', []);
+let app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $http) {
-  $http.get("https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html")
+  $http.get("http://localhost:4200/#/store?client=copper")
   .then(function(response) {
       $scope.myWelcome = response.data;
   });
@@ -24,15 +24,15 @@ onload = function() {
     if (!isOfflineMode()) {
         loadUserCredentialsFromCache();
     }
-    var webview = document.getElementById("contentWebView");
-    var addressbar = document.getElementById("addressbar");
-    var loadstart = function() {
+    let webview = document.getElementById("contentWebView");
+    let addressbar = document.getElementById("addressbar");
+    let loadstart = function() {
         addressbar.innerHTML = webview.getURL();
         document.getElementById('refreshIcon').className = 'glyphicon glyphicon-remove';
         //setBackButtonState();
         //setForwardButtonState();
     }
-    var loadstop = function() {
+    let loadstop = function() {
         addressbar.innerHTML = webview.getURL();
         document.getElementById('refreshIcon').className = 'glyphicon glyphicon-repeat';
     }
@@ -41,8 +41,8 @@ onload = function() {
 }
 
 function setBackButtonState() {
-    var webview = document.getElementById("contentWebView");
-    var elements = [];
+    let webview = document.getElementById("contentWebView");
+    let elements = [];
     elements = [document.getElementById("linkGoBack"), document.getElementById("glyphGoBack")];
     if (!webview.canGoBack()) {
         setStateDisabled(elements);
@@ -52,8 +52,8 @@ function setBackButtonState() {
 }
 
 function setForwardButtonState() {
-    var webview = document.getElementById("contentWebView");
-    var elements = [document.getElementById("linkGoForward"), document.getElementById("glyphGoForward")];
+    let webview = document.getElementById("contentWebView");
+    let elements = [document.getElementById("linkGoForward"), document.getElementById("glyphGoForward")];
     if (!webview.canGoForward()) {
         setStateDisabled(elements);
     } else {
@@ -62,40 +62,40 @@ function setForwardButtonState() {
 }
 
 function setStateActive(elements) {
-    for (var index in elements) {
+    for (let index in elements) {
         elements[index].disabled = false;
     }
 }
 
 function setStateDisabled(elements) {
-    for (var index in elements) {
+    for (let index in elements) {
         elements[index].disabled = true;
     }
 }
 
 function refreshButtonClick(){
-    var webview = document.getElementById("contentWebView");
-    var refreshIcon = document.getElementById("refreshIcon");
-    if ('glyphicon glyphicon-repeat' == refreshIcon.className) {
+    let webview = document.getElementById("contentWebView");
+    let refreshIcon = document.getElementById("refreshIcon");
+    if ('glyphicon glyphicon-repeat' === refreshIcon.className) {
         webview.reload();
-    } else if ('glyphicon glyphicon-remove' == refreshIcon.className) {
+    } else if ('glyphicon glyphicon-remove' === refreshIcon.className) {
         webview.stop();
     }
 }
 
 function contentGoBack(){
-    var webview = document.getElementById("contentWebView");
+    let webview = document.getElementById("contentWebView");
     if (webview.canGoBack()) {webview.goBack();}
 }
 
 function contentGoForward(){
-    var webview = document.getElementById("contentWebView");
+    let webview = document.getElementById("contentWebView");
     if (webview.canGoForward()) {webview.goForward();}
 }
 
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+    let vars = {};
+    let parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
     function(m,key,value) {
       vars[key] = value;
       console.log(key + " : " + value);
@@ -108,15 +108,15 @@ function showAboutBox() {
 }
             
 function enableWebViewMessageListener() {
-    var webview = document.getElementById("contentWebView");
+    let webview = document.getElementById("contentWebView");
     webview.addEventListener('ipc-message', function(event) {
-        var app = event.args[0][0];
+        let app = event.args[0][0];
         console.log(event.channel + " : " + app.id + ", " + app.name);
     });
 }
 
 function loadURLInToWebView(url) {
-    var webview = document.getElementById("contentWebView");
+    let webview = document.getElementById("contentWebView");
     webview.loadURL(url);
 }
 
@@ -127,7 +127,7 @@ function loadContentPage(url) {
 function setCSS(css) {
 	try {
 		// append stylesheet to alter
-        var themeCSS = document.getElementById('themeCSS');
+        let themeCSS = document.getElementById('themeCSS');
         if (null !== themeCSS) {
             document.getElementsByTagName("head")[0].removeChild(themeCSS);
         }
@@ -140,7 +140,7 @@ function setCSS(css) {
 function setTheme(themeName) {
     
     // create CSS element to set up the page
-    var css = document.createElement("link");
+    let css = document.createElement("link");
     css.setAttribute("id", "themeCSS");
     css.setAttribute("href", "../theme/"+themeName+".css");
     css.setAttribute("rel","stylesheet");
@@ -165,9 +165,9 @@ document.addEventListener("keydown", function (e) {
 
 function validateLogin() {
     loggedInUser = document.getElementById("email").value;
-    var inPassword = document.getElementById("pwd").value;
-    if (user == loggedInUser) {
-        if (pass == inPassword) {
+    let inPassword = document.getElementById("pwd").value;
+    if (user === loggedInUser) {
+        if (pass === inPassword) {
             loggedin = true;
             $('#loginModal').modal('hide');
         }
@@ -186,7 +186,7 @@ function isLoggedIn() {
 }
 
 function toggleDeveloperTools() {
-    require('remote').getCurrentWindow().toggleDevTools();
+    require('electron').remote.getCurrentWindow().toggleDevTools();
 }
 
 function saveSetting(settingKey, settingValue) {
@@ -218,11 +218,11 @@ function logOutUser() {
 
 function showLoginWindow() {
     ipcRenderer.sendSync('synchronous-message', 'open-login-window');
-    require('remote').getCurrentWindow().close();
+    require('electron').remote.getCurrentWindow().close();
 }
 
 function isOfflineMode() {
-    if ('true' == userSettings.readSetting("offlineMode")) {
+    if ('true' === userSettings.readSetting("offlineMode")) {
         return true;
     } else {
         return false;

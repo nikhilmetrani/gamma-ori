@@ -1,10 +1,17 @@
 'use strict';
 
-const electron = require('electron');
+const electron = require('electron')
+// Module to control application life.
+const app = electron.app
+// Module to create native browser window.
+const BrowserWindow = electron.BrowserWindow
+
+const path = require('path')
+const url = require('url')
 const ipcMain = electron.ipcMain;
-const Menu = require('menu');
-const copperApp = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const {Menu} = require('electron');
+const copperApp = app;
+
 const userSettings = require('./js/copper-app/UserSettings');
 const appConfig = require('./js/copper-app/AppConfig');
 const trayMenu = [
@@ -35,20 +42,20 @@ const trayMenu = [
     }
   ];
 
-var loginStatus = false;
-var offlineMode = false;
-var mainWindow = null;
-var aboutWindow = null;
-var loginWindow = null;
-var dialog = require('dialog');
+let loginStatus = false;
+let offlineMode = false;
+let mainWindow = null;
+let aboutWindow = null;
+let loginWindow = null;
+// let dialog = require('dialog');
 const Tray = electron.Tray;
 
-var appIcon = null;
+let appIcon = null;
 
 //startup
 copperApp.on('ready', function() {
     appIcon = new Tray('./assets/icons/29cu.png');
-    var contextMenu = Menu.buildFromTemplate(trayMenu);
+    const contextMenu = Menu.buildFromTemplate(trayMenu);
     appIcon.setToolTip('29Cu');
     appIcon.setContextMenu(contextMenu);
     
@@ -86,10 +93,14 @@ function showMainWindow() {
     if (!userSettings.readSetting('theme')) {
         userSettings.saveSetting('theme', appConfig.readSetting('theme'));
     }
-    mainWindow = new BrowserWindow({width: 800, height: 600, minWidth: 640, minHeight: 480, icon:'./assets/icons/29cu@2.5x.png'});
+    mainWindow = new BrowserWindow({width: 900, height: 660, minWidth: 640, minHeight: 480, icon:'./assets/icons/29cu@2.5x.png'});
     mainWindow.setMenu(null);
     
-    mainWindow.loadURL('file://' + __dirname + '/screens/index.html?loggedin=' + loginStatus);
+    mainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'screens/index.html?loggedin=' + loginStatus),
+            protocol: 'file:',
+            slashes: true
+    }));
     
     mainWindow.on('closed', function() {
         mainWindow = null;
@@ -115,7 +126,11 @@ function showLoginWindow() {
         icon:'./assets/icons/29cu@2.5x.png'
     });
     loginWindow.setMenu(null);
-    loginWindow.loadURL('file://' + __dirname + '/screens/login/login.html');
+    loginWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'screens/login/login.html'),
+            protocol: 'file:',
+            slashes: true
+    }));
 
     loginWindow.on('closed', function () {
         loginWindow = null;
@@ -142,7 +157,11 @@ function showAboutWindow() {
         icon:'./assets/icons/29cu@2.5x.png'
     });
     aboutWindow.setMenu(null);
-    aboutWindow.loadURL('file://' + __dirname + '/screens/about/about.html');
+    aboutWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'screens/about/about.html'),
+            protocol: 'file:',
+            slashes: true
+    }));
 
     aboutWindow.on('closed', function () {
         aboutWindow = null;
@@ -164,30 +183,30 @@ function closeAllWindows() {
 
 //ipc listner
 ipcMain.on('synchronous-message', function(event, arg) {
-  if (arg == 'open-about-window') {
+  if (arg === 'open-about-window') {
       showAboutWindow();
-  } else if (arg == 'open-login-window') {
+  } else if (arg === 'open-login-window') {
       showLoginWindow();
-  }  else if (arg == 'open-main-window') {
+  }  else if (arg === 'open-main-window') {
       showMainWindow();
-  } else if (arg == 'close-about-window') {
+  } else if (arg === 'close-about-window') {
       closeAboutWindow();
-  } else if (arg == 'close-main-window') {
+  } else if (arg === 'close-main-window') {
       closeMainWindow();
-  } else if (arg == 'login-success') {
+  } else if (arg === 'login-success') {
       loginStatus = true;
       offlineMode = false;
       showMainWindow();
       //closeLoginWindow();
-  } else if (arg == 'use-offline-mode') {
+  } else if (arg === 'use-offline-mode') {
       loginStatus = false;
       offlineMode = true;
       showMainWindow();
       //closeLoginWindow();
-  } else if (arg == 'logoff-user') {
+  } else if (arg === 'logoff-user') {
       loginStatus = false;
       offlineMode = false;
-  } else if (arg == 'exit-copper-app') {
+  } else if (arg === 'exit-copper-app') {
       exitCopperApp();
   }
   event.returnValue = 'done';
@@ -209,16 +228,16 @@ function getLoginStatus() {
 }
 
 function getSavedSession() {
-    /*var personalSysA = userSettings.readSetting("personalSys");
-    var theState = "";
-    if (null == personalSysA) {
+    /*let personalSysA = userSettings.readSetting("personalSys");
+    let theState = "";
+    if (null === personalSysA) {
         theState = "null";
     }
-    if (undefined == personalSysA) {
+    if (undefined === personalSysA) {
         theState = "undefined";
     }
     process.stdout.write(theState);*/
-    return ("yes" == userSettings.readSetting("personalSys"));
+    return ("yes" === userSettings.readSetting("personalSys"));
 }
 
 function closeUserSession() {

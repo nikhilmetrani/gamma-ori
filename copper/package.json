@@ -1,13 +1,17 @@
 {
-  "name"    : "copper",
+  "name": "copper",
   "description": "USM Desktop Client App",
-  "version" : "0.1.0",
-  "main"    : "./copper.js",
+  "version": "0.1.0",
+  "main": "./copper.js",
   "scripts": {
     "start": "electron .",
+    "startnew": ".\\node_modules\\.bin\\electron .",
     "package": "electron-packager ./ SoundMachine --all --out ~/Desktop/SoundMachine --version 0.30.2 --overwrite --icon=./app/img/app-icon.icns"
   },
   "dependencies": {
     "nconf": "^0.7.2"
+  },
+  "devDependencies": {
+    "electron": "^1.4.15"
   }
 }

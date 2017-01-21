@@ -7,7 +7,7 @@ var userPass = "password";
 
 document.addEventListener("keydown", function (e) {
     if (e.which === 123) {
-        require('remote').getCurrentWindow().toggleDevTools();
+        require('electron').remote.getCurrentWindow().toggleDevTools();
     } else if (e.which === 116) {
         location.reload();
     }
@@ -20,7 +20,7 @@ function loadUserCredentialsFromCache() {
 }
 
 function populateUserToUI() {
-    if ("yes" == userSettings.readSetting("personalSys")) {
+    if ("yes" === userSettings.readSetting("personalSys")) {
         document.getElementById("inputEmail").value = user;
         document.getElementById("checkBoxMySystem").checked = true;
     } else {
@@ -56,15 +56,14 @@ function notifyLoginSuccess() {
 }
 
 function closeLoginWindow() {
-    var remote = require('remote');
-    remote.getCurrentWindow().close();
+    require('electron').remote.getCurrentWindow().close();
 }
 
 function validateLogin() {
     var inUserName = document.getElementById("inputEmail").value;
     var inPassword = document.getElementById("inputPassword").value;
-    if (userName == inUserName) {
-        if (userPass == inPassword) {
+    if (userName === inUserName) {
+        if (userPass === inPassword) {
             return true;
         }
     }

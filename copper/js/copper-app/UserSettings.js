@@ -18,7 +18,7 @@ function removeSetting(settingKey) {
 }
 
 function getUserHome() {
-    return process.env[(process.platform == 'win32') ? 'LOCALAPPDATA' : 'HOME'];
+    return process.env[(process.platform === 'win32') ? 'LOCALAPPDATA' : 'HOME'];
 }
 
 function createDirectory(path) {

@@ -30,9 +30,10 @@
                         <li><a id="linkGoForward" href="#" onclick="contentGoForward();"><span id="glyphGoForward" class="glyphicon glyphicon-arrow-right"></span></a></li>
                     </ul>
                     <ul class="nav navbar-nav">
-                        <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('file://' + __dirname + '/myapps/myapps.html'); }">My Apps</a></li>
+                        <!--file://' + __dirname + '/myapps/myapps.html-->
+                        <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('http://localhost:4200/#/store/myapps?client=copper'); }">My Apps</a></li>
                         <!--http://www.tomshardware.com/answers/id-1646153/slow-internet-loading-fast-connection.html-->
-                        <li><a href="#" onClick="loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');">xenon Store</a></li>
+                        <li><a href="#" onClick="loadURLInToWebView('http://localhost:4200/#/store?client=copper');">Store</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <!--button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button-->

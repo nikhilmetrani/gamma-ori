@@ -1,9 +1,7 @@
-var remote = require('remote'),
-    Menu = remote.require('menu');
-
+const {Menu} = require('electron')
 const ipcRenderer = require('electron').ipcRenderer;
 
-var menuTemplate = [
+const menuTemplate = [
     {
         label: 'copper',
         submenu: [
@@ -37,7 +35,7 @@ var menuTemplate = [
                 accelerator: 'CmdOrCtrl+X',
                 selector: 'terminate:', //osx only
                 click: function() {
-                    require('remote').getCurrentWindow().close();
+                    require('electron').remote.getCurrentWindow().close();
                     //ipcRenderer.sendSync('synchronous-message', 'close-main-window');
                 }
             }
@@ -65,7 +63,7 @@ var menuTemplate = [
             {
                 label: 'Store',
                 click: function() {
-                    loadURLInToWebView('https://s3-ap-southeast-1.amazonaws.com/eyot-staging.com/store.html');
+                    loadURLInToWebView('http://localhost:4200/#/store?client=copper');
                     //alert('Store');
                 }
             },
@@ -134,12 +132,11 @@ var menuTemplate = [
 ]; //menuTemplate
 
 function getMenuFromTemplate() {
-    var appMenu = Menu.buildFromTemplate(menuTemplate);
-    return appMenu;
+    return Menu.buildFromTemplate(menuTemplate);
 }
 
 function setApplicationMenu() {
-    var appMenu = getMenuFromTemplate();
+    const appMenu = getMenuFromTemplate();
     Menu.setApplicationMenu(appMenu);
 }
 

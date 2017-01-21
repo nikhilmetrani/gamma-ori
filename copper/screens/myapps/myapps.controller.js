@@ -1,13 +1,13 @@
 function launchCalc() {
     const os = require('os');
     //alert(os.type());
-    if (os.type() == 'Linux') {
+    if (os.type() === 'Linux') {
         executeApp('gnome-calculator');
     }
-    if (os.type() == 'Darwin') {
+    if (os.type() === 'Darwin') {
         executeApp('open /Applications/Calculator.app/');
     }
-    if (os.type() == 'Windows_NT') {
+    if (os.type() === 'Windows_NT') {
         executeApp('calc');
     }
 }
