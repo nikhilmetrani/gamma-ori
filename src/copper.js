@@ -54,7 +54,7 @@ let appIcon = null;
 
 //startup
 copperApp.on('ready', function() {
-    appIcon = new Tray('./assets/icons/29cu.png');
+    appIcon = new Tray('./src/assets/icons/29cu.png');
     const contextMenu = Menu.buildFromTemplate(trayMenu);
     appIcon.setToolTip('29Cu');
     appIcon.setContextMenu(contextMenu);
@@ -93,11 +93,11 @@ function showMainWindow() {
     if (!userSettings.readSetting('theme')) {
         userSettings.saveSetting('theme', appConfig.readSetting('theme'));
     }
-    mainWindow = new BrowserWindow({width: 900, height: 660, minWidth: 640, minHeight: 480, icon:'./assets/icons/29cu@2.5x.png'});
+    mainWindow = new BrowserWindow({width: 900, height: 660, minWidth: 640, minHeight: 480, icon:'./src/assets/icons/29cu@2.5x.png'});
     mainWindow.setMenu(null);
     
     mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'screens/index.html?loggedin=' + loginStatus),
+            pathname: path.join(__dirname, 'src/screens/index.html?loggedin=' + loginStatus),
             protocol: 'file:',
             slashes: true
     }));
@@ -123,7 +123,7 @@ function showLoginWindow() {
         height: 320,
         //resizable: false,
         width: 480,
-        icon:'./assets/icons/29cu@2.5x.png'
+        icon:'./src/assets/icons/29cu@2.5x.png'
     });
     loginWindow.setMenu(null);
     loginWindow.loadURL(url.format({
@@ -154,7 +154,7 @@ function showAboutWindow() {
         height: 520,
         resizable: false,
         width: 320,
-        icon:'./assets/icons/29cu@2.5x.png'
+        icon:'./src/assets/icons/29cu@2.5x.png'
     });
     aboutWindow.setMenu(null);
     aboutWindow.loadURL(url.format({
