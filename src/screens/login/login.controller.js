@@ -1,9 +1,10 @@
-const userSettings = require("../../js/copper-app/UserSettings");
+const userSettings = require("../../js/app/UserSettings");
 const ipcRenderer = require('electron').ipcRenderer;
-var user = null;
- 
-var userName = "default";
-var userPass = "password";
+let user = null;
+const loginService = require('../../js/services/login.service');
+
+let userName = "default";
+let userPass = "password";
 
 document.addEventListener("keydown", function (e) {
     if (e.which === 123) {
@@ -59,21 +60,13 @@ function closeLoginWindow() {
     require('electron').remote.getCurrentWindow().close();
 }
 
-function validateLogin() {
-    var inUserName = document.getElementById("inputEmail").value;
-    var inPassword = document.getElementById("inputPassword").value;
-    if (userName === inUserName) {
-        if (userPass === inPassword) {
-            return true;
-        }
-    }
-    return false;
+function processLogin() {
+    loginService.login(document.getElementById("inputEmail").value, document.getElementById("inputPassword").value, loginHandler);
 }
 
-function processLogin() {
-    if (validateLogin()) {
-        return true;
+function loginHandler(err, res, body) {
+    if (!err && res.statusCode == 200) {
+        notifyLoginSuccess();
+        closeLoginWindow();
     }
-    alert("Invalid credentials");
-    return false;
 }

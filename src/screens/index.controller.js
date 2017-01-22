@@ -1,7 +1,9 @@
 let user = "default";
 let pass = "password";
 let loggedin = false;
-const userSettings = require("../js/copper-app/UserSettings");
+const userSettings = require("../js/app/UserSettings");
+const loginService = require("../js/services/login.service");
+const jsonRequest = require("../js/services/json-request.service");
 let loggedInUser = "";
 
 //let menu = require('../js/menus');
@@ -10,13 +12,13 @@ let loggedInUser = "";
 
 const ipcRenderer = require('electron').ipcRenderer;
 
-let app = angular.module('myApp', []);
-app.controller('myCtrl', function($scope, $http) {
-  $http.get("http://localhost:4200/#/store?client=copper")
-  .then(function(response) {
-      $scope.myWelcome = response.data;
-  });
-});
+// let app = angular.module('myApp', []);
+// app.controller('myCtrl', function($scope, $http) {
+//   $http.get("http://localhost:4200/#/store?client=copper")
+//   .then(function(response) {
+//       $scope.myWelcome = response.data;
+//   });
+// });
 
 onload = function() {
     loadCurrentTheme();
@@ -163,23 +165,9 @@ document.addEventListener("keydown", function (e) {
     }
 });
 
-function validateLogin() {
-    loggedInUser = document.getElementById("email").value;
-    let inPassword = document.getElementById("pwd").value;
-    if (user === loggedInUser) {
-        if (pass === inPassword) {
-            loggedin = true;
-            $('#loginModal').modal('hide');
-        }
-    }
-    if (!loggedin) {
-        alert("Error: Invalid unername and/or password!");
-    }
-    return loggedin;
-}
-
 function isLoggedIn() {
-    if (!loggedin) {
+    console.log('file://' + __dirname + '/myapps/myapps.html');
+    if (!loginService.isSignedIn()) {
         alert("Error: You must login first");
     }
     return loggedin;
@@ -198,6 +186,7 @@ function readSetting(settingKey) {
 }
 
 function loadUserCredentialsFromCache() {
+    loggedin = loginService.isSignedIn();
     loggedInUser = userSettings.readSetting("loggedInUser");
     if (loggedInUser !== "" && getSavedSession()) {
         loggedin = true;

@@ -28,7 +28,7 @@ var menuTemplate = [
         {
             label: 'Exit',
             click: function() {
-                ipcRenderer.sendSync('synchronous-message', 'exit-copper-app');
+                ipcRenderer.sendSync('synchronous-message', 'exit-app');
             }
         }
     ]

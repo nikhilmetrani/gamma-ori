@@ -5,12 +5,11 @@ hydrogen repository for eyot prototyping
 
 Instructions to run copper - USM Desktop Client App:
 
-1. Install Node.js on you machine
-2. Get hydrogen repository - run git clone https://nikhilmetrani@bitbucket.org/nikhilmetrani/hydrogen.git
-3. navigate to copper folder - cd /hydrogen/copper
-4. Install electron-prebuilt using - npm install -g electron-prebuilt
-5. Install nconf - npm install nconf 
-6. Run carbon - npm start
+1. Install NodeJs version 6.x from https://nodejs.org/en/
+2. Get gamma-ori repository - run git clone https://nikhilmetrani@github.com/nikhilmetrani/gamma-ori.git
+3. Navigate to gamma-ori folder - cd /gamma-ori
+4. Install dependencies using - npm install
+5. Run the app - npm start
 
 #NOTE
 Please do not commit and push any files from node_modules folder.

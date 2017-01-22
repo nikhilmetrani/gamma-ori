@@ -31,7 +31,7 @@
                     </ul>
                     <ul class="nav navbar-nav">
                         <!--file://' + __dirname + '/myapps/myapps.html-->
-                        <li><a href="#" onClick="if (isLoggedIn()) {loadURLInToWebView('http://localhost:4200/#/store/myapps?client=copper'); }">My Apps</a></li>
+                        <li><a href="#" onClick="loadURLInToWebView('file://' + __dirname + '/myapps/myapps.html')">My Apps</a></li>
                         <!--http://www.tomshardware.com/answers/id-1646153/slow-internet-loading-fast-connection.html-->
                         <li><a href="#" onClick="loadURLInToWebView('http://localhost:4200/#/store?client=copper');">Store</a></li>
                     </ul>
@@ -61,7 +61,7 @@
             </div>
         </nav><!--homenavbar-->
         <div id="content">
-            <webview class="wvcontainer" id="contentWebView" src="home/home.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
+            <webview class="wvcontainer" id="contentWebView" src="./home/home.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
         </div>
         <div id="footer">
             <div id="statusbar">

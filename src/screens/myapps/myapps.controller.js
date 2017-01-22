@@ -1,6 +1,9 @@
+
+const jsonRequest = require("../../js/services/json-request.service");
+const userSettings = require("../../js/app/UserSettings");
+
 function launchCalc() {
     const os = require('os');
-    //alert(os.type());
     if (os.type() === 'Linux') {
         executeApp('gnome-calculator');
     }
@@ -11,6 +14,7 @@ function launchCalc() {
         executeApp('calc');
     }
 }
+
 function executeApp(appName) {
     const exec = require('child_process').exec;
     const child = exec(`${appName}`,
@@ -21,4 +25,17 @@ function executeApp(appName) {
             console.log(`exec error: ${error}`);
         }
     });
+}
+
+function getSubscriptions() {
+    jsonRequest.get(
+        '/api/0/store/subscriptions', 
+        function (err, res, body) {
+            if (!err && res.statusCode == 200) {
+                JSON.parse(body).applications.forEach(app => 
+                    $(".subscribedApps").append(app.name)
+                );
+            }
+        }
+    );
 }

@@ -7,14 +7,17 @@
 		<link rel="stylesheet" href="../../external/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="../../external/jquery/jquery-2.2.3.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 		<script src="../../external/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		<script src="myapps.controller.js"></script>
+		<script src="./myapps.controller.js"></script>
 	</head>
 	<body>
 		
 		<div id="services" class="container-fluid text-center">
 			<h2>Application Library</h2>
 			<br>
-			<div class="row slideanim">
+				<div class="subscribedApps">
+					
+				</div>
+			<!--<div class="row slideanim">
 				<div class="col-sm-4">
 				<span class="glyphicon glyphicon-off logo-small"></span>
 				<h4>Calculator</h4>
@@ -48,8 +51,10 @@
 				<h4 style="color:#303030;">App 6</h4>
 				<p>Lorem ipsum dolor sit amet..</p>
 				</div>
-			</div>
+			</div>-->
 		</div>
-		
 	</body>
+	<script>
+		getSubscriptions();
+	</script>
 </html>

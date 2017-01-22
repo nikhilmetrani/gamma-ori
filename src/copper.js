@@ -12,8 +12,10 @@ const ipcMain = electron.ipcMain;
 const {Menu} = require('electron');
 const copperApp = app;
 
-const userSettings = require('./js/copper-app/UserSettings');
-const appConfig = require('./js/copper-app/AppConfig');
+const userSettings = require('./js/app/UserSettings');
+const appConfig = require('./js/app/AppConfig');
+const loginService = require('./js/services/login.service');
+
 const trayMenu = [
     {
       label: "copper",
@@ -97,7 +99,7 @@ function showMainWindow() {
     mainWindow.setMenu(null);
     
     mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'src/screens/index.html?loggedin=' + loginStatus),
+            pathname: path.join(__dirname, 'screens/index.html'),
             protocol: 'file:',
             slashes: true
     }));
@@ -126,6 +128,7 @@ function showLoginWindow() {
         icon:'./src/assets/icons/29cu@2.5x.png'
     });
     loginWindow.setMenu(null);
+    // loginWindow.loadURL('http://localhost:4200/#/login?client=copper');
     loginWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'screens/login/login.html'),
             protocol: 'file:',
@@ -206,7 +209,7 @@ ipcMain.on('synchronous-message', function(event, arg) {
   } else if (arg === 'logoff-user') {
       loginStatus = false;
       offlineMode = false;
-  } else if (arg === 'exit-copper-app') {
+  } else if (arg === 'exit-app') {
       exitCopperApp();
   }
   event.returnValue = 'done';
