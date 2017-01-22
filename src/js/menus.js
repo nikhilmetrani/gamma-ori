@@ -3,7 +3,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 const menuTemplate = [
     {
-        label: 'copper',
+        label: 'Gamma-Ori',
         submenu: [
             {
                 label: "Login",
@@ -121,7 +121,7 @@ const menuTemplate = [
                 type: 'separator'
             },
             {
-                label: 'About copper',
+                label: 'About',
                 click: function() {
                     //alert('SE23PT2: copper - USM Desktop prototype');
                     ipcRenderer.sendSync('synchronous-message', 'open-about-window');

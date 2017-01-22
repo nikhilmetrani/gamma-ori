@@ -2,7 +2,7 @@
   "name": "gamma-ori",
   "description": "USM Desktop Client App",
   "version": "0.1.0",
-  "main": "./src/copper.js",
+  "main": "./src/gamma-ori.js",
   "scripts": {
     "start": "electron ."
   },

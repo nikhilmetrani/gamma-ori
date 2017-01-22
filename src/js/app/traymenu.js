@@ -8,7 +8,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 var menuTemplate = [
         {
-            label: 'copper',
+            label: 'Gamma-Ori',
             click: function() {
                 ipcRenderer.sendSync('synchronous-message', 'open-main-window');
             }

@@ -30,7 +30,7 @@ function createDirectory(path) {
 
 function getSettingsLocation() {
     var userHome = getUserHome();
-    return createDirectory(userHome + "/.copper");
+    return createDirectory(userHome + "/.gamma-ori");
 }
 
 module.exports = {

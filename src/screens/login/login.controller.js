@@ -1,12 +1,12 @@
-const userSettings = require("../../js/app/UserSettings");
+const userSettings = require('../../js/app/UserSettings');
 const ipcRenderer = require('electron').ipcRenderer;
-let user = null;
 const loginService = require('../../js/services/login.service');
+const userService = require('../../js/services/user.service');
 
-let userName = "default";
-let userPass = "password";
+// let userName = 'default';
+// let userPass = 'password';
 
-document.addEventListener("keydown", function (e) {
+document.addEventListener('keydown', function (e) {
     if (e.which === 123) {
         require('electron').remote.getCurrentWindow().toggleDevTools();
     } else if (e.which === 116) {
@@ -14,38 +14,40 @@ document.addEventListener("keydown", function (e) {
     }
 });
 
-
-function loadUserCredentialsFromCache() {
-    user = userSettings.readSetting("loggedInUser");
-    return user;
-}
-
 function populateUserToUI() {
-    if ("yes" === userSettings.readSetting("personalSys")) {
-        document.getElementById("inputEmail").value = user;
-        document.getElementById("checkBoxMySystem").checked = true;
+    document.getElementById('inputEmail').value = getLastUser();
+    if (isPersonalSystem()) {
+        document.getElementById('checkBoxMySystem').checked = true;
     } else {
-        document.getElementById("inputEmail").value = "";
-        document.getElementById("checkBoxMySystem").checked = false;
+        document.getElementById('checkBoxMySystem').checked = false;
     }
 }
 
-function getSavedSession() {
-    return userSettings.readSetting("personalSys");
+function getLastUser() {
+    u = userSettings.readSetting('lastUser');
+    if (u !== undefined) {
+        return u;
+    }
+    return '';
+}
+
+function isPersonalSystem() {
+    return userSettings.readSetting('personalSys') === 'yes';
 }
 
 function saveLoginInfo() {
-    if (document.getElementById("checkBoxMySystem").checked) {
-        userSettings.saveSetting("loggedInUser", document.getElementById("inputEmail").value);
-        userSettings.saveSetting("personalSys", "yes");
+    if (document.getElementById('checkBoxMySystem').checked) {
+        userSettings.saveSetting('personalSys', 'yes');
     } else {
-        userSettings.saveSetting("personalSys", "no");
+        userSettings.saveSetting('personalSys', 'no');
     }
-    userSettings.saveSetting("offlineMode", "false");
+    userSettings.saveSetting('lastUser', document.getElementById('inputEmail').value);
+    userSettings.saveSetting('x-auth-token', localStorage.getItem('jwt'));
+    userSettings.saveSetting('offlineMode', 'false');
 }
 
 function saveOfflineMode() {
-    userSettings.saveSetting("offlineMode", "true");
+    userSettings.saveSetting('offlineMode', 'true');
 }
 
 function launchInOfflineMode() {
@@ -61,12 +63,32 @@ function closeLoginWindow() {
 }
 
 function processLogin() {
-    loginService.login(document.getElementById("inputEmail").value, document.getElementById("inputPassword").value, loginHandler);
+    loginService.login(document.getElementById('inputEmail').value, document.getElementById('inputPassword').value, loginHandler);
 }
 
 function loginHandler(err, res, body) {
     if (!err && res.statusCode == 200) {
+        saveLoginInfo();
         notifyLoginSuccess();
         closeLoginWindow();
+    }
+}
+
+function proceedIfLoggedIn() {
+    if (isPersonalSystem()) {
+        token = userSettings.readSetting('x-auth-token');
+        if (token !== '' || token !== undefined) {
+            localStorage.setItem('jwt', token);
+            userService.getUser(
+                function (err, res, body) {
+                    if (!err && res.statusCode === 200) {
+                        document.getElementById('inputEmail').value = body.email;
+                        saveLoginInfo();
+                        notifyLoginSuccess();
+                        closeLoginWindow();
+                    }
+                }
+            );
+        }
     }
 }

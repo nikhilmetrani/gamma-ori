@@ -18,7 +18,7 @@ const loginService = require('./js/services/login.service');
 
 const trayMenu = [
     {
-      label: "copper",
+      label: 'Gamma-Ori',
       click: function() { 
           if (loginStatus || offlineMode) {
               showMainWindow();
@@ -28,7 +28,7 @@ const trayMenu = [
         }
     },
     {
-      label: "About",
+      label: 'About',
       click: function() { 
           showAboutWindow();
       }
@@ -37,7 +37,7 @@ const trayMenu = [
       type: 'separator'
     },
     {
-      label: "Exit",
+      label: 'Exit',
       click: function() {
           exitCopperApp();
         }
@@ -58,21 +58,21 @@ let appIcon = null;
 copperApp.on('ready', function() {
     appIcon = new Tray('./src/assets/icons/29cu.png');
     const contextMenu = Menu.buildFromTemplate(trayMenu);
-    appIcon.setToolTip('29Cu');
+    appIcon.setToolTip('gamma-ori');
     appIcon.setContextMenu(contextMenu);
     
     
     if (getSavedSession()) {
-        process.stdout.write("getSavedSession returned true");
+        // process.stdout.write('getSavedSession returned true');
         if (getLoginStatus()) {
-            process.stdout.write("getLoginStatus returned true");
+            // process.stdout.write('getLoginStatus returned true');
             showMainWindow();
         } else {
-            process.stdout.write("getLoginStatus returned false");
+            // process.stdout.write('getLoginStatus returned false');
             showLoginWindow();
         }
     } else {
-        process.stdout.write("getSavedSession returned false");
+        // process.stdout.write('getSavedSession returned false');
         showLoginWindow();
     }
 });
@@ -91,9 +91,6 @@ copperApp.on('window-all-closed', function() {
 function showMainWindow() {
     if (null !== mainWindow) {
         return;
-    }
-    if (!userSettings.readSetting('theme')) {
-        userSettings.saveSetting('theme', appConfig.readSetting('theme'));
     }
     mainWindow = new BrowserWindow({width: 900, height: 660, minWidth: 640, minHeight: 480, icon:'./src/assets/icons/29cu@2.5x.png'});
     mainWindow.setMenu(null);
@@ -222,7 +219,8 @@ function exitCopperApp() {
 }
 
 function getLoginStatus() {
-    if (!userSettings.readSetting("loggedInUser")) {
+    process.stdout.write(userSettings.readSetting('x-auth-token'));
+    if (!userSettings.readSetting('x-auth-token')) {
         loginStatus = false;
     } else {
         loginStatus = true;
@@ -231,21 +229,12 @@ function getLoginStatus() {
 }
 
 function getSavedSession() {
-    /*let personalSysA = userSettings.readSetting("personalSys");
-    let theState = "";
-    if (null === personalSysA) {
-        theState = "null";
-    }
-    if (undefined === personalSysA) {
-        theState = "undefined";
-    }
-    process.stdout.write(theState);*/
-    return ("yes" === userSettings.readSetting("personalSys"));
+    return ('yes' === userSettings.readSetting('personalSys'));
 }
 
 function closeUserSession() {
-    if ("yes" !== userSettings.readSetting("personalSys")) {
-        userSettings.removeSetting("loggedInUser");
-        userSettings.removeSetting("offlineMode");
+    if ('yes' !== userSettings.readSetting('personalSys')) {
+        userSettings.removeSetting('x-auth-token');
+        userSettings.removeSetting('offlineMode');
     }
 }

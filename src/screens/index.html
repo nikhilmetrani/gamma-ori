@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>copper</title>
+		<title>Gamma-Ori</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="../external/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -37,17 +37,28 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <!--button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button-->
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{loggedInUser}}"><span class="glyphicon glyphicon-user"></span></a>
+                        <li id="menuonline" class="dropdown">
+                            <a id="navbarUser" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#" onclick="">View profile</a></li>
-                                <li><a href="#" onclick="">Account settings</a></li>
-                                <li class="divider"></li>
+                                <li><a href="#" onclick="loadURLInToWebView('http://localhost:4200/#/store/profile?client=copper');">Profile</a></li>
+                                <li class=" divider"></li>
                                 <li><a href="#" onclick="logOutUser(); showLoginWindow();">Log-off</a></li>
                             </ul>
                         </li>
+                        <li id="menuoffline" class="dropdown">
+                            <a id="navbarUser" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" onclick="showLoginWindow();">Log-in</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
-                            <a id="settingsmenu" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span>  <span class="caret"></span></a>
+                            <a id="settingsmenu" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" onclick="toggleDeveloperTools();">Developer Tools</a></li>
                                 <li class="divider"></li>
@@ -61,7 +72,7 @@
             </div>
         </nav><!--homenavbar-->
         <div id="content">
-            <webview class="wvcontainer" id="contentWebView" src="./home/home.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
+            <webview class="wvcontainer" id="contentWebView" src="./myapps/myapps.html" httpreferrer="carbon" autosize="on" nodeintegration></webview>
         </div>
         <div id="footer">
             <div id="statusbar">

@@ -11,7 +11,13 @@ function get(api, callback) {
                 'x-auth-token': localStorage.getItem('jwt')
             }
         },
-        (err, res, body) => callback(err, res, body)
+        (err, res, body) => {
+            try {
+                callback(err, res, JSON.parse(body));
+            } catch (ex) {
+                callback(err, res, body);
+            }
+        }
     );
 }
 
@@ -24,7 +30,13 @@ function post(api, body, callback) {
                 'x-auth-token': localStorage.getItem('jwt')
             }
         },
-        (err, res, body) => callback(err, res, body)
+        (err, res, body) => {
+            try {
+                callback(err, res, JSON.parse(body));
+            } catch (ex) {
+                callback(err, res, body);
+            }
+        }
     );
 }
 

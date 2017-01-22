@@ -32,9 +32,20 @@ function getSubscriptions() {
         '/api/0/store/subscriptions', 
         function (err, res, body) {
             if (!err && res.statusCode == 200) {
-                JSON.parse(body).applications.forEach(app => 
-                    $(".subscribedApps").append(app.name)
-                );
+                if (body.applications.length === 0) {
+                    $("#appsDiv").append('<div class="alert alert-info">You do not have any applications in your library, please visit the store to get applications.</div>');
+                }else {
+                    body.applications.forEach(app => 
+                        $("#subscribedApps").append( '<div class="app-card">' +
+                                    '<a class="title" href="#" onClick="viewApplicationDetails()">' + app.name + '</a>' +
+                                    '<div class="tools">' +
+                                    '<a href="#" class="details">Install</a>' +
+                                    '<span class="tooltiptext">Install ' + app.name + '</span>' +
+                                '</div>')
+                    );
+                }
+            } else {
+                $("#appsDiv").append('<div class="alert alert-warning">Please log in to see subscribed apps</div>');
             }
         }
     );

@@ -13,7 +13,7 @@ function readSetting(settingKey) {
 }
 
 function removeSetting(settingKey) {
-    nconf.remove(settingKey);
+    nconf.set(settingKey, '');
     nconf.save();
 }
 
@@ -34,7 +34,7 @@ function createDirectory(path) {
 
 function getSettingsLocation() {
     var userHome = getUserHome();
-    return createDirectory(userHome + "/.copper");
+    return createDirectory(userHome + "/.gamma-ori");
 }
 
 module.exports = {

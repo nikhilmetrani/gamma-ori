@@ -32,10 +32,8 @@
         </div> <!-- /container -->
         
         <script>
-            if (loadUserCredentialsFromCache()) {
-                populateUserToUI();
-                getSavedSession();
-            }
+            populateUserToUI();
+            proceedIfLoggedIn();
         </script>
     </body>
 </html>
