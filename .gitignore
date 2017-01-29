@@ -12,3 +12,6 @@
 /desktop/copper.VC.VC.opendb
 /desktop/copper.VC.db
 /node_modules
+/out
+npm-*
+debug.*
