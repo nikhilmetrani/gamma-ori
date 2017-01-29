@@ -14,22 +14,22 @@ let downloadingApp = undefined
 
 document.addEventListener('keydown', function (e) {
   if (e.which === 123) {
-  require('electron').remote.getCurrentWindow().toggleDevTools()
+    require('electron').remote.getCurrentWindow().toggleDevTools()
   } else if (e.which === 116) {
-  location.reload()
+    location.reload()
   }
 })
 
 function launchCalc() {
   const os = require('os');
   if (os.type() === 'Linux') {
-  launchService.execute('gnome-calculator');
+    launchService.execute('gnome-calculator');
   }
   if (os.type() === 'Darwin') {
-  launchService.execute('open /Applications/Calculator.app/');
+    launchService.execute('open /Applications/Calculator.app/');
   }
   if (os.type() === 'Windows_NT') {
-  launchService.execute('calc');
+    launchService.execute('calc');
   }
 }
 
@@ -38,24 +38,24 @@ function getSubscriptions() {
   '/api/0/store/subscriptions', 
   function (err, res, body) {
     if (!err && res.statusCode === 200) {
-    if (body.applications.length === 0) {
-      $('#appsDiv').append('<div class="alert alert-info">You do not have any applications in your library, please visit the store to get applications.</div>');
-    } else {
-      let lastApp = undefined
-      subscribedApps = body.applications;
-      subscribedApps.forEach(app => {
-        let appDiv = '<div class="app-card">' +
-        getApplicationCardHtml(app) +
-        '</div>'
-        $('#subscribedApps').append(appDiv)
-        lastApp = app
-      })
-      setAppActionButton(lastApp)
+      if (body.applications.length === 0) {
+        $('#appsDiv').append('<div class="alert alert-info">You do not have any applications in your library, please visit the store to get applications.</div>');
+      } else {
+        let lastApp = undefined
+        subscribedApps = body.applications;
+        subscribedApps.forEach(app => {
+          let appDiv = '<div class="app-card">' +
+          getApplicationCardHtml(app) +
+          '</div>'
+          $('#subscribedApps').append(appDiv)
+          lastApp = app
+        })
+        setAppActionButton(lastApp)
+      }
+      } else {
+        $('#appsDiv').append(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Warning, 'Please log in to see subscribed apps'));
+      }
     }
-    } else {
-      $('#appsDiv').append(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Warning, 'Please log in to see subscribed apps'));
-    }
-  }
   );
 }
 
@@ -89,11 +89,9 @@ function isAppInstalled(appId) {
 function launchApp(appId) {
   subscribedApps.forEach(app => {
     if (app.rid === appId) {
-      downloadingApp = app
       let installer = getInstallerForCurrentOS(app.installers)
       if (!installer.launchCommand) {
         $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Error, 'Launch command for this application is not specified.\nPlease contact the developer - ' + app.developer.email))
-        downloadingApp = undefined
       } else {
         launchService.execute(installer.launchCommand, '', launchCallback)
       }
@@ -112,7 +110,7 @@ function launchCallback (error, stdout, stderr) {
 
 function installApp(appId) {
   if (downloadingApp !== undefined) {
-    alert('Another application is being downloaded')
+    $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Warning, 'Another application is being downloaded'))
     return false
   }
   subscribedApps.forEach(app => {
