@@ -31,11 +31,12 @@ section {
     height: 200px;
     border: 2px solid;
     background-color: #FBFFEC;
-    padding: 10px;
+    padding: 5px;
     color: #29394b;
 }
 
 .title {
+    margin-top: 8px;
     font-size: 1.3em;
     flex: 1;
 }
@@ -57,38 +58,13 @@ section {
     text-decoration: none;
 }
 
-.tools {
-    position: relative;
-    display: inline-block;
-    /*border-bottom: 1px dotted black;*/
-}
-
-.tools .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+.geartool {
+    display: flex;
     position: absolute;
-    z-index: 1;
-    top: 150%;
-    left: 50%;
-    margin-left: -60px;
+    margin-top: -2px;
+    margin-left: 112px;
 }
 
-.tools .tooltiptext::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent black transparent;
-}
-
-.tools:hover .tooltiptext {
-    visibility: visible;
+.red {
+    color: #ed1b00
 }

@@ -50,7 +50,10 @@ function getSubscriptions() {
           $('#subscribedApps').append(appDiv)
           lastApp = app
         })
-        setAppActionButton(lastApp)
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip(); 
+        });
+
       }
       } else {
         $('#appsDiv').append(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Warning, 'Please log in to see subscribed apps'));
@@ -61,18 +64,33 @@ function getSubscriptions() {
 
 function getApplicationCardHtml (app) {
   return '<a class="title" href="#" onClick="viewApplicationDetails()">' + app.name + '</a>' +
+         getUninstallHtml(app) +
          '<div class="tools">' +
          getApplicationButtonHtml(app)
 }
 
+function viewApplicationDetails() {
+  //TODO
+}
+
+function getUninstallHtml(app) {
+  if (isAppInstalled(app.rid)) {
+    return '<div class="dropdown geartool">' +
+      '<a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">' +
+      '<span class="glyphicon glyphicon-cog red"></span></a>' +
+      '<ul class="dropdown-menu">' +
+        '<li onClick="uninstallApp(\'' + app.rid +'\')" data-toggle="tooltip" data-placement="auto" title="Remove ' + app.name + '"><a href="#">Uninstall</a></li>' +
+      '</ul>' +
+    '</div>'
+  }
+  return ''
+}
+
 function getApplicationButtonHtml (app) {
   if (isAppInstalled(app.rid)) {
-    return '<a id="app-action" href="#" class="details" onClick="launchApp(\'' + app.rid +'\')">Launch</a>' +
-            '<span class="tooltiptext">Launch ' + app.name + '</span>'
-  } else {
-    return '<a id="app-action" href="#" class="details" onClick="installApp(\'' + app.rid +'\')">Install</a>' +
-            '<span class="tooltiptext">Install ' + app.name + '</span>'
+    return '<button type="button" data-toggle="tooltip" data-placement="auto" title="Launch ' + app.name + '" class="btn btn-success btn-sm btn-block" onClick="launchApp(\'' + app.rid +'\')">Launch</button>'
   }
+  return '<button data-toggle="tooltip" data-placement="auto" title="Install ' + app.name + '" class="btn btn-primary btn-sm btn-block" onClick="installApp(\'' + app.rid +'\')">Install</a>'
 }
 
 function isAppInstalled(appId) {
@@ -108,23 +126,65 @@ function launchCallback (error, stdout, stderr) {
   }
 }
 
+function uninstallApp(appId) {
+  subscribedApps.forEach(app => {
+    let dummy = app
+    if (app.rid === appId) {
+      // User confirmation logic must be in main process
+      // Render process does not have access to dialog object
+      // let electron = require('electron')
+      // let app = electron.app
+      // let dialog = electron.dialog
+      // dialog.showMessageBox({
+      //     type: 'warning',
+      //     message: 'Confirm',
+      //     detail: 'This will remove ' + downloadingApp.name + ' from your system.\nAre you sure you want to continue?',
+      //     buttons: ['Ok', 'Cancel']
+      //   }, function (selection) {
+      //     alert(selection)
+      //   })
+      let installer = getInstallerForCurrentOS(app.installers)
+      if (!installer.uninstallCommand) {
+        $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Error, 'Uninstall for this application is not specified.\nPlease remove the application manually from Control Panel'))
+      } else {
+        downloadingApp = app
+        launchService.execute(installer.uninstallCommand, '', uninstallCallback)
+      }
+    }
+  })
+}
+
+function uninstallCallback (error, stdout, stderr) {
+  if (error !== null) {
+    $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Error, 'Failed to uninstall application.\nPlease contact the developer - ' + downloadingApp.developer.email))
+  } else {
+    let index = installedApps.indexOf(downloadingApp.rid);
+    if (index > -1) {
+      installedApps.splice(index, 1)
+      userSettings.saveSetting('installedApps', installedApps)
+      setAppActionButton(downloadingApp)
+      $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Success, 'Application was uninstalled successfully.'))
+    }
+  }
+  downloadingApp = undefined
+}
+
 function installApp(appId) {
   if (downloadingApp !== undefined) {
     $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Warning, 'Another application is being downloaded'))
     return false
   }
   subscribedApps.forEach(app => {
-  if (app.rid === appId) {
-    downloadingApp = app
-    let installer = getInstallerForCurrentOS(app.installers)
-    if (!installer.downloadUrl) {
-      $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Error, 'Download URL for this application is not specified.\nPlease contact the developer - ' + app.developer.email))
-      downloadingApp = undefined
-    } else {
-      downloadService.download(installer.downloadUrl, showDownloadProgress, dlHandler)
+    if (app.rid === appId) {
+      let installer = getInstallerForCurrentOS(app.installers)
+      if (!installer.downloadUrl) {
+        $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Error, 'Download URL for this application is not specified.\nPlease contact the developer - ' + app.developer.email))
+      } else {
+        downloadingApp = app
+        downloadService.download(installer.downloadUrl, showDownloadProgress, dlHandler)
+      }
+      return true
     }
-    return true
-  }
   })
 }
 
