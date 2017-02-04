@@ -148,6 +148,7 @@ function uninstallApp(appId) {
         $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Error, 'Uninstall for this application is not specified.\nPlease remove the application manually from Control Panel'))
       } else {
         downloadingApp = app
+        $('#dlProgress').html(htmlService.getBootstrapDismisableAlert(bootstrapAlerts.Warning, 'Uninstalling ' + downloadingApp.name + '...'))
         launchService.execute(installer.uninstallCommand, '', uninstallCallback)
       }
     }
