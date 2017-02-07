@@ -1,9 +1,6 @@
-Author: Nikhil Metrani
-Date:   06/04/0216
+#Gamma-Ori
 
-hydrogen repository for eyot prototyping
-
-Instructions to run copper - USM Desktop Client App:
+Instructions to run USM Thick Client:
 
 1. Install NodeJs version 6.x from https://nodejs.org/en/
 2. Get gamma-ori repository - run git clone https://nikhilmetrani@github.com/nikhilmetrani/gamma-ori.git
