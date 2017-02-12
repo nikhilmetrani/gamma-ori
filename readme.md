@@ -1,5 +1,7 @@
 #Gamma-Ori
 
+[![dependencies Status](https://david-dm.org/nikhilmetrani/gamma-ori/status.svg)](https://david-dm.org/nikhilmetrani/gamma-ori)
+
 Instructions to run USM Thick Client:
 
 1. Install NodeJs version 6.x from https://nodejs.org/en/
